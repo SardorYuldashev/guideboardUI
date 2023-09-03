@@ -7,19 +7,14 @@ import axios from 'axios';
 const UserPassword = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  let token = localStorage.getItem("token");
-  let role = localStorage.getItem("role");
+  const role = localStorage.getItem("role");
   const [values, setValues] = useState({ password: "", confirm: "" });
 
   useEffect(() => {
-    if (!token) {
-      toast("Sizda bu yo'lga kirishga ruxsat yo'q", { type: "warning" });
-      navigate(-1);
-    };
-
     if (role !== "admin") {
       toast("Sizda bu yo'lga kirishga ruxsat yo'q", { type: "warning" });
-      navigate(-1);
+      navigate("/");
+      return;
     };
   }, []);
 

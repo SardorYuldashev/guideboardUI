@@ -1,22 +1,30 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import style from './layout.module.scss';
 import { useNavigate, Outlet } from 'react-router-dom';
 import Header from '../../Components/Header';
+import Loader from '../../Components/Loader';
 
 const Layout = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    let token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/home");
+      return;
+    };
 
-    if (!token) navigate("/home");
+    setLoading(false);
   }, [navigate]);
 
   return (
-    <div className={style["layout"]}>
-      <Header />
-      <Outlet />
-    </div>
+    loading
+      ? <Loader />
+      : <div className={style["layout"]}>
+        <Header />
+        <Outlet />
+      </div>
   );
 };
 

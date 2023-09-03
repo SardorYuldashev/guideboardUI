@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import style from './tasksMy.module.scss'
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -8,8 +8,6 @@ import red_mark from '../../assets/images/red_mark.webp';
 import Loader from './../../Components/Loader';
 
 const TasksMy = () => {
-  const navigate = useNavigate();
-  const token = localStorage.getItem("token");
   const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(false);
   const [tasks, setTasks] = useState([]);
@@ -17,11 +15,6 @@ const TasksMy = () => {
   const [filter, setFilter] = useState({ completed: "false" });
 
   useEffect(() => {
-    if (!token) {
-      navigate("/home");
-      return;
-    };
-
     async function getGuides() {
       try {
         setLoading(true);
@@ -35,9 +28,7 @@ const TasksMy = () => {
       };
     };
     getGuides();
-
   }, [refresh]);
-
 
   function handleSelect(e) {
     setFilter((ov) => ({ ...ov, [e.target.name]: e.target.value }));
@@ -58,7 +49,7 @@ const TasksMy = () => {
 
             <div className={style["tasksMy__content-top"]}>
               <h1 className={style["tasksMy__content-text"]}>
-                Meni vazifalarim
+                Mening vazifalarim
               </h1>
             </div>
 

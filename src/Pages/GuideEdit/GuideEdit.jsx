@@ -4,23 +4,22 @@ import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Loader from './../../Components/Loader';
+import { useDispatch } from 'react-redux';
+import { loadRefreshData } from '../../Store/slices/refresh';
 
 const GuideEdit = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { id } = useParams();
-  const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
   const [values, setValues] = useState({ title: "", content: "", notify: false });
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!token) {
-      toast("Profilga kirmagansiz", { type: "error" });
-      navigate("/home");
-    }
     if (role !== "admin") {
-      toast("Sizda bu yo'lga kirishga ruxsat yo'q", { type: "error" });
+      toast("Sizda bu yo'lga kirishga ruxsat yo'q", { type: "warning" });
       navigate("/");
+      return;
     };
 
     async function getGuide() {
@@ -52,6 +51,7 @@ const GuideEdit = () => {
 
       toast("Qoida tahrirlandi", { type: "success" });
       setValues({ title: "", content: "", notify: false });
+      dispatch(loadRefreshData(true));
       navigate(-1);
     } catch (error) {
       toast(error.response.data.error, { type: "error" });

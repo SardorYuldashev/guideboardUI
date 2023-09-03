@@ -3,21 +3,20 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { loadRefreshData } from '../../Store/slices/refresh';
 
 const GuideAdd = () => {
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+  const dispatch = useDispatch();
   const role = localStorage.getItem("role");
   const [values, setValues] = useState({ title: "", content: "", notify: false })
 
   useEffect(() => {
-    if (!token) {
-      toast("Profilga kirmagansiz", { type: "error" });
-      navigate("/home");
-    }
     if (role !== "admin") {
-      toast("Sizda bu yo'lga kirishga ruxsat yo'q", { type: "error" });
+      toast("Sizda bu yo'lga kirishga ruxsat yo'q", { type: "warning" });
       navigate("/");
+      return;
     };
   });
 
@@ -41,6 +40,7 @@ const GuideAdd = () => {
 
       toast("Yangi qoida qo'shildi", { type: "success" });
       setValues({ title: "", content: "", notify: false });
+      dispatch(loadRefreshData(true));
       navigate("/");
     } catch (error) {
       toast(error.response.data.error, { type: "error" });

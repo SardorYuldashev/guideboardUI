@@ -66,7 +66,7 @@ const Header = () => {
             }
 
             <li className={style["header__content-li"]}>
-              <Link to="/tasks/my" className={style["header__content-link"]}>Meni vazifalarim</Link>
+              <Link to="/tasks/my" className={style["header__content-link"]}>Mening vazifalarim</Link>
               {newTask === 0 ?
                 <div className={style["header__content-circleNone"]}></div> :
                 <div className={style["header__content-circle"]}></div>

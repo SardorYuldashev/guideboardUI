@@ -18,13 +18,10 @@ const Dashboard = () => {
   const [sort, setSort] = useState({ by: "id", order: "asc" });
 
   useEffect(() => {
-    setLoading(true)
     if (!token) {
       navigate("/home");
-      setLoading(false);
       return;
     };
-    setLoading(false);
 
     async function getGuides() {
       try {

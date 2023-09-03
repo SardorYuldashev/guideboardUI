@@ -11,17 +11,18 @@ import { loadRefreshData } from '../../Store/slices/refresh';
 
 const TasksAll = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
-  const token = localStorage.getItem("token");
+  const dispatch = useDispatch();
+  const role = localStorage.getItem("role");
   const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(false);
   const [task, setTask] = useState([]);
   const [URL, setURL] = useState("/user-guides/all");
-  const [filter, setFilter] = useState({ completed: "false" });
+  const [filter, setFilter] = useState({ completed: "all" });
 
   useEffect(() => {
-    if (!token) {
-      navigate("/home");
+    if (role !== "admin") {
+      toast("Sizda bu yo'lga kirishga ruxsat yo'q", { type: "warning" });
+      navigate("/");
       return;
     };
 
@@ -32,7 +33,7 @@ const TasksAll = () => {
         setTask(data);
         setLoading(false);
         setURL("/user-guides/all");
-        setFilter({ completed: false });
+        setFilter({ completed: "all" });
       } catch (error) {
         toast(error.response.data.error, { type: "error" });
       };
@@ -75,7 +76,14 @@ const TasksAll = () => {
 
   function handleSort(e) {
     e.preventDefault();
-    setURL(`/user-guides?filters[completed]=${filter.completed}`);
+
+    if (filter.completed === "all") {
+      setURL("/user-guides/all");
+      setRefresh(!refresh);
+      return;
+    };
+
+    setURL(`/user-guides/all?filters[completed]=${filter.completed}`);
     setRefresh(!refresh);
   };
 
@@ -97,6 +105,7 @@ const TasksAll = () => {
               <form onSubmit={handleSort} className={style["tasksAll__content-filter"]}>
 
                 <select onChange={handleSelect} name="completed" id="completed">
+                  <option value="all">Barchasi</option>
                   <option value={false}>Ko'rilmaganlar</option>
                   <option value={true}>Ko'rilganlar</option>
                 </select>

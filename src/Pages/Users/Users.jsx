@@ -7,7 +7,6 @@ import Loader from '../../Components/Loader';
 
 const Users = () => {
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -26,13 +25,10 @@ const Users = () => {
   const [selected, setSelected] = useState(optionsFilter[0].value);
 
   useEffect(() => {
-    if (!token) {
-      toast("Profilga kirmagansiz", { type: "error" });
-      navigate("/home");
-    }
     if (role !== "admin") {
-      toast("Sizda bu yo'lga kirishga ruxsat yo'q", { type: "error" });
+      toast("Sizda bu yo'lga kirishga ruxsat yo'q", { type: "warning" });
       navigate("/");
+      return;
     };
 
     async function getGuides() {

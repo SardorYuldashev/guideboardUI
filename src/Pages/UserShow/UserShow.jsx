@@ -10,21 +10,16 @@ import Loader from './../../Components/Loader';
 const UserShow = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  let token = localStorage.getItem("token");
-  let role = localStorage.getItem("role");
+  const role = localStorage.getItem("role");
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
-    if (!token) {
-      toast("Profilga kirmagansiz", { type: "error" });
-      navigate("/home");
-    };
-
     if (role !== "admin") {
       toast("Sizda bu yo'lga kirishga ruxsat yo'q", { type: "warning" });
-      navigate(-1);
+      navigate("/");
+      return;
     };
 
     async function getUser() {

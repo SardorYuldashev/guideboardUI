@@ -6,21 +6,15 @@ import style from './userAdd.module.scss';
 
 const UserAdd = () => {
   const navigate = useNavigate();
-  let token = localStorage.getItem("token");
-  let role = localStorage.getItem("role");
+  const role = localStorage.getItem("role");
   const [values, setValues] = useState({ first_name: "", last_name: "", age: "", role: "employee", username: "", password: "" });
 
   useEffect(() => {
-    if (!token) {
-      toast("Sizda bu yo'lga kirishga ruxsat yo'q", { type: "warning" });
-      navigate(-1);
-    };
-
     if (role !== "admin") {
       toast("Sizda bu yo'lga kirishga ruxsat yo'q", { type: "warning" });
-      navigate(-1);
+      navigate("/");
+      return;
     };
-
   }, []);
 
   async function handleRegister(e) {

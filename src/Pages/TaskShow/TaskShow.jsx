@@ -10,21 +10,14 @@ import { useDispatch } from 'react-redux';
 import { loadRefreshData } from '../../Store/slices/refresh';
 
 const TaskShow = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { id } = useParams();
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
   const [refresh, setRefresh] = useState(true);
   const [loading, setLoading] = useState(false);
   const [task, setTask] = useState({});
 
   useEffect(() => {
-    if (!token) {
-      toast("Profilga kirmagansiz", { type: "error" });
-      navigate("/home");
-      return;
-    };
-
     async function getTask() {
       try {
         setLoading(true);
@@ -32,6 +25,18 @@ const TaskShow = () => {
         setTask(data.data);
         setLoading(false);
       } catch (error) {
+        if (error.response.status === 404) {
+          toast("Foydalanuvchi uchun qo'llanma topilmadi", { type: "error" });
+          navigate("/");
+          return;
+        };
+
+        if (error.response.status === 403) {
+          toast("Boshqalarni qo'llanmasini ko'rish mumkin emas", { type: "error" });
+          navigate("/");
+          return;
+        };
+
         toast(error.response.data.error, { type: "error" });
       };
     }
@@ -133,7 +138,7 @@ const TaskShow = () => {
           </div>
         </div>
       </div>
-  )
-}
+  );
+};
 
-export default TaskShow
+export default TaskShow;

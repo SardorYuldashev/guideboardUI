@@ -4,21 +4,14 @@ import admin_avatar from '../../assets/images/admin_avatar.webp';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Loader from './../../Components/Loader';
 
 const Profile = () => {
-  const navigate = useNavigate();
-  let token = localStorage.getItem("token");
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!token) {
-      toast("Profilga kirmagansiz", { type: "error" });
-      navigate("/home");
-    };
-
     async function getUser() {
       try {
         setLoading(true);
@@ -39,7 +32,7 @@ const Profile = () => {
         <div className="container">
           <div className={style["profile__content"]}>
 
-          <div className={style["profile__content-top"]}>
+            <div className={style["profile__content-top"]}>
               <h1 className={style["profile__content-text"]}>
                 Shaxsiy ma'lumotlar
               </h1>

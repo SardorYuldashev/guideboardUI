@@ -7,16 +7,10 @@ import Loader from './../../Components/Loader';
 
 const UserEditMe = () => {
   const navigate = useNavigate();
-  let token = localStorage.getItem("token");
   const [values, setValues] = useState({ first_name: "", last_name: "", age: "", username: "" });
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!token) {
-      toast("Sizda bu yo'lga kirishga ruxsat yo'q", { type: "warning" });
-      navigate(-1);
-    };
-
     async function getUser() {
       try {
         setLoading(true);
@@ -29,7 +23,6 @@ const UserEditMe = () => {
       };
     };
     getUser();
-
   }, []);
 
   async function handleRegister(e) {
