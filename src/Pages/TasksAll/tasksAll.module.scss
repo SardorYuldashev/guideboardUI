@@ -1,0 +1,148 @@
+.tasksAll {
+
+  &__content {
+    min-height: calc(100vh - 60px);
+    padding: 10px 0 30px;
+
+    &-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &-text {
+      background: linear-gradient(to right, #5b5b5b, #ffffff);
+      width: max-content;
+      padding-left: 5px;
+      text-align: center;
+      font-size: 50px;
+      cursor: default;
+    }
+
+    &-tools {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    &-filter {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      background: #302929;
+      padding: 10px 15px;
+      border-radius: 15px;
+
+      select {
+        border: none;
+        outline: none;
+        background: none;
+        font-size: 18px;
+        transition: .3s;
+        color: #ffffff;
+        cursor: pointer;
+
+        option {
+          color: #302929;
+        }
+      }
+
+      button {
+        border: none;
+        background: #bee2ec;
+        font-size: 18px;
+        padding: 5px 10px;
+        border-radius: 10px;
+        color: #302929;
+        transition: .3s;
+        font-weight: 700;
+        cursor: pointer;
+
+        &:hover {
+          background: #fc4545;
+          color: white;
+        }
+      }
+    }
+
+    &-table {
+      margin-top: 30px;
+    }
+
+    &-element {
+      display: grid;
+      grid-template-columns: 0.5fr 2fr 2fr 1.5fr 3fr 1fr 1fr;
+    }
+
+    &-item {
+      text-align: left;
+      background: #eec4c4;
+      padding: 10px;
+    }
+
+    &-li {
+      display: grid;
+      grid-template-columns: 0.5fr 2fr 2fr 1.5fr 3fr 1fr 1fr;
+      transition: .3s;
+
+      &:hover {
+        background: #e4ecf8;
+      }
+    }
+
+    &-info {
+      font-size: 16px;
+      padding: 15px;
+      cursor: default;
+
+      &:nth-child(6) {
+        display: flex;
+        justify-content: center;
+      }
+    }
+
+    &-titleBox {
+      width: 286px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+
+    &-imgBox {
+      width: 25px;
+      height: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &-img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    &-buttons {
+      padding: 10px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    &-btn {
+      transition: .3s;
+      cursor: pointer;
+      color: #000000;
+      border: none;
+      background: none;
+      font-size: 22px;
+
+      &:hover {
+        color: #ff0000
+      }
+
+    }
+  }
+}

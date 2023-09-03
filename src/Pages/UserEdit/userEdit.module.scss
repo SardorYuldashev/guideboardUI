@@ -1,0 +1,106 @@
+.userEdit {
+
+  &__content {
+    min-height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+    padding-top: 15px;
+
+    &-backBtn {
+      width: 60%;
+    }
+
+    &-back {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: .3s;
+      font-weight: 600;
+      background: #302929;
+      color: white;
+
+      &:hover {
+        background: #ff0000;
+      }
+    }
+
+    &-form {
+      width: 60%;
+      overflow: hidden;
+      background: #686f70f1;
+    }
+
+    &-title {
+      text-align: center;
+      font-size: 30px;
+      padding: 15px 0;
+      background: #302929;
+      color: #ffffff;
+
+      i {
+        font-size: 20px;
+        margin-left: 5px;
+        transform: translateY(-15px);
+
+        &:hover {
+          color: #ff0000;
+        }
+      }
+    }
+
+    &-row {
+      padding: 0 30px;
+    }
+
+    &-inputs {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    &-label {
+      color: #ffffff9d;
+      font-size: 20px;
+    }
+
+    &-input {
+      color: #ffffff;
+      outline: none;
+      border: none;
+      background: none;
+      padding: 5px;
+      width: 100%;
+      border-bottom: 2px solid #ffffff;
+      font-size: 16px;
+    }
+
+    &-buttons {
+      padding: 20px 30px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &-btn {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: .3s;
+      font-weight: 600;
+      background: #302929;
+      color: white;
+
+      &:hover {
+        background: #ff0000;
+      }
+    }
+  }
+}

@@ -1,0 +1,90 @@
+.taskShow {
+
+  &__content {
+    padding-top: 30px;
+
+    &-buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &-btn {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: .3s;
+      font-weight: 600;
+      background: #302929;
+      color: white;
+
+      &:hover {
+        background: #ff0000;
+      }
+    }
+
+    &-imgWrapper {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    &-imgText {
+      font-size: 25px;
+      font-weight: 600;
+      text-align: right;
+      cursor: default;
+    }
+
+    &-img {
+      max-width: 100px;
+    }
+
+    &-body {
+      margin-top: 30px;
+
+    }
+
+    &-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    &-title {
+      background: linear-gradient(to right, #8a8a8a, #ffffff);
+      background-size: 100% 50%;
+      width: max-content;
+      padding-left: 20px;
+      font-size: 30px;
+      cursor: default;
+    }
+
+    &-completed {
+      display: block;
+      min-width: 200px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: .3s;
+      font-weight: 600;
+      background: #302929;
+      color: white;
+
+      &:hover {
+        background: #ff0000;
+      }
+    }
+
+    &-content {
+      margin-top: 20px;
+      font-size: 20px;
+      cursor: default;
+    }
+  }
+}
