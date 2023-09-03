@@ -5,12 +5,14 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { loadRefreshData } from '../../Store/slices/refresh';
+import Loader from '../../Components/Loader';
 
 const GuideAdd = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const role = localStorage.getItem("role");
-  const [values, setValues] = useState({ title: "", content: "", notify: false })
+  const [values, setValues] = useState({ title: "", content: "", notify: false });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (role !== "admin") {
@@ -18,6 +20,8 @@ const GuideAdd = () => {
       navigate("/");
       return;
     };
+
+    setLoading(false);
   });
 
   function back() {
@@ -44,6 +48,7 @@ const GuideAdd = () => {
       navigate("/");
     } catch (error) {
       toast(error.response.data.error, { type: "error" });
+      navigate("/");
     };
   };
 
@@ -65,95 +70,97 @@ const GuideAdd = () => {
   `;
 
   return (
-    <div className={style["addGuide"]}>
-      <div className="container">
-        <div className={style["addGuide__content"]}>
+    loading
+      ? <Loader />
+      : <div className={style["addGuide"]}>
+        <div className="container">
+          <div className={style["addGuide__content"]}>
 
-          <div className={style["addGuide__content-backBtn"]}>
-            <button onClick={back} className={style["addGuide__content-btn"]}>Ortga qaytish</button>
+            <div className={style["addGuide__content-backBtn"]}>
+              <button onClick={back} className={style["addGuide__content-btn"]}>Ortga qaytish</button>
+            </div>
+
+            <form onSubmit={handleSubmit} className={style["addGuide__content-form"]}>
+
+              <h1 className={style["addGuide__content-title"]}>
+                Qoida qo'shish <abbr className={style["addGuide__content-abbr"]} title={info}>
+                  <i className="fa-solid fa-circle-info"></i>
+                </abbr>
+              </h1>
+
+              <div className={style["addGuide__content-row"]}>
+
+                <div className={style["addGuide__content-inputs"]}>
+                  <label
+                    htmlFor="title"
+                    className={style["addGuide__content-label"]}
+                  >
+                    Sarlavha
+                  </label>
+
+                  <input
+                    type="text"
+                    id='title'
+                    name='title'
+                    value={values.title}
+                    onChange={handleInputChange}
+                    className={style["addGuide__content-input"]}
+                  />
+                </div>
+
+                <div className={style["addGuide__content-inputs"]}>
+                  <label
+                    htmlFor="content"
+                    className={style["addGuide__content-label"]}
+                  >
+                    Qoida matni
+                  </label>
+
+                  <textarea
+                    type="content"
+                    id='content'
+                    name='content'
+                    value={values.content}
+                    onChange={handleInputChange}
+                    className={style["addGuide__content-input"]}
+                    cols="30"
+                    rows="5">
+
+                  </textarea>
+                </div>
+
+              </div>
+
+              <div className={style["addGuide__content-buttons"]}>
+
+                <div className={style["addGuide__content-checkbox"]}>
+                  <label
+                    htmlFor="notify"
+                    className={style["addGuide__content-label"]}
+                  >
+                    Hammaga jo'natish
+                  </label>
+
+                  <input
+                    type="checkbox"
+                    id='notify'
+                    name='notify'
+                    value={true}
+                    onChange={handleCheck}
+                    className={style["addGuide__content-check"]}
+                  />
+                </div>
+
+                <button type='submit' className={style["addGuide__content-btn"]} >
+                  Jo'natish
+                </button>
+              </div>
+
+            </form>
+
           </div>
-
-          <form onSubmit={handleSubmit} className={style["addGuide__content-form"]}>
-
-            <h1 className={style["addGuide__content-title"]}>
-              Qoida qo'shish <abbr className={style["addGuide__content-abbr"]} title={info}>
-                <i className="fa-solid fa-circle-info"></i>
-              </abbr>
-            </h1>
-
-            <div className={style["addGuide__content-row"]}>
-
-              <div className={style["addGuide__content-inputs"]}>
-                <label
-                  htmlFor="title"
-                  className={style["addGuide__content-label"]}
-                >
-                  Sarlavha
-                </label>
-
-                <input
-                  type="text"
-                  id='title'
-                  name='title'
-                  value={values.title}
-                  onChange={handleInputChange}
-                  className={style["addGuide__content-input"]}
-                />
-              </div>
-
-              <div className={style["addGuide__content-inputs"]}>
-                <label
-                  htmlFor="content"
-                  className={style["addGuide__content-label"]}
-                >
-                  Qoida matni
-                </label>
-
-                <textarea
-                  type="content"
-                  id='content'
-                  name='content'
-                  value={values.content}
-                  onChange={handleInputChange}
-                  className={style["addGuide__content-input"]}
-                  cols="30"
-                  rows="5">
-
-                </textarea>
-              </div>
-
-            </div>
-
-            <div className={style["addGuide__content-buttons"]}>
-
-              <div className={style["addGuide__content-checkbox"]}>
-                <label
-                  htmlFor="notify"
-                  className={style["addGuide__content-label"]}
-                >
-                  Hammaga jo'natish
-                </label>
-
-                <input
-                  type="checkbox"
-                  id='notify'
-                  name='notify'
-                  value={true}
-                  onChange={handleCheck}
-                  className={style["addGuide__content-check"]}
-                />
-              </div>
-
-              <button type='submit' className={style["addGuide__content-btn"]} >
-                Jo'natish
-              </button>
-            </div>
-
-          </form>
-
         </div>
       </div>
-    </div>
   );
 };
 

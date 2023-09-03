@@ -11,7 +11,7 @@ const Dashboard = () => {
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
   const [guides, setGuides] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
   const [search, setSearch] = useState('');
   const [URL, setURL] = useState('/guides');
@@ -25,7 +25,6 @@ const Dashboard = () => {
 
     async function getGuides() {
       try {
-        setLoading(true);
         let { data } = await axios.get(`${URL}`);
         setGuides(data);
         setLoading(false);

@@ -9,17 +9,16 @@ import Loader from './../../Components/Loader';
 
 const Profile = () => {
   const [user, setUser] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function getUser() {
       try {
-        setLoading(true);
         let { data } = await axios.get("/users/me");
         setUser(data.data);
         setLoading(false)
       } catch (error) {
-        toast(error.response.data.error, { type: "error" });
+        toast(error.response.data.error, { type: "error" });        
       };
     };
     getUser();

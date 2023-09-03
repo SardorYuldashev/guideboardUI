@@ -14,30 +14,20 @@ const TaskShow = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [refresh, setRefresh] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [task, setTask] = useState({});
 
   useEffect(() => {
     async function getTask() {
       try {
-        setLoading(true);
         let { data } = await axios.get(`/user-guides/${id}`);
+
         setTask(data.data);
         setLoading(false);
       } catch (error) {
-        if (error.response.status === 404) {
-          toast("Foydalanuvchi uchun qo'llanma topilmadi", { type: "error" });
-          navigate("/");
-          return;
-        };
-
-        if (error.response.status === 403) {
-          toast("Boshqalarni qo'llanmasini ko'rish mumkin emas", { type: "error" });
-          navigate("/");
-          return;
-        };
-
         toast(error.response.data.error, { type: "error" });
+        navigate("/");
+        return;
       };
     }
     getTask();

@@ -3,15 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import style from './login.module.scss';
+import Loader from '../../Components/Loader';
 
 const Login = () => {
   const navigate = useNavigate();
   const [values, setValues] = useState({ username: "", password: "" });
+  const token = localStorage.getItem("token");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let token = localStorage.getItem("token");
-
     if (token) navigate("/");
+
+    setLoading(false);
   }, [navigate]);
 
   async function handleLogin(e) {
@@ -57,69 +60,71 @@ const Login = () => {
   `;
 
   return (
-    <div className={style["login"]}>
-      <div className="container">
-        <div className={style["login__content"]}>
+    loading
+      ? <Loader />
+      : <div className={style["login"]}>
+        <div className="container">
+          <div className={style["login__content"]}>
 
-          <form onSubmit={handleLogin} className={style["login__content-form"]}>
+            <form onSubmit={handleLogin} className={style["login__content-form"]}>
 
-            <h1 className={style["login__content-title"]}>
-              Profilga kirish
-              <abbr className={style["login__content-abbr"]} title={info}>
-                <i className="fa-solid fa-circle-info"></i>
-              </abbr>
-            </h1>
+              <h1 className={style["login__content-title"]}>
+                Profilga kirish
+                <abbr className={style["login__content-abbr"]} title={info}>
+                  <i className="fa-solid fa-circle-info"></i>
+                </abbr>
+              </h1>
 
-            <div className={style["login__content-row"]}>
+              <div className={style["login__content-row"]}>
 
-              <div className={style["login__content-inputs"]}>
-                <label
-                  htmlFor="username"
-                  className={style["login__content-label"]}
-                >
-                  Username
-                </label>
+                <div className={style["login__content-inputs"]}>
+                  <label
+                    htmlFor="username"
+                    className={style["login__content-label"]}
+                  >
+                    Username
+                  </label>
 
-                <input
-                  type="text"
-                  id='username'
-                  name='username'
-                  value={values.username}
-                  onChange={handleInputChange}
-                  className={style["login__content-input"]}
-                />
+                  <input
+                    type="text"
+                    id='username'
+                    name='username'
+                    value={values.username}
+                    onChange={handleInputChange}
+                    className={style["login__content-input"]}
+                  />
+                </div>
+
+                <div className={style["login__content-inputs"]}>
+                  <label
+                    htmlFor="password"
+                    className={style["login__content-label"]}
+                  >
+                    Password
+                  </label>
+
+                  <input
+                    type="password"
+                    id='password'
+                    name='password'
+                    value={values.password}
+                    onChange={handleInputChange}
+                    className={style["login__content-input"]}
+                  />
+                </div>
+
               </div>
 
-              <div className={style["login__content-inputs"]}>
-                <label
-                  htmlFor="password"
-                  className={style["login__content-label"]}
-                >
-                  Password
-                </label>
-
-                <input
-                  type="password"
-                  id='password'
-                  name='password'
-                  value={values.password}
-                  onChange={handleInputChange}
-                  className={style["login__content-input"]}
-                />
+              <div className={style["login__content-buttons"]}>
+                <button type='submit' className={style["login__content-btn"]} >
+                  Kirish
+                </button>
               </div>
 
-            </div>
-
-            <div className={style["login__content-buttons"]}>
-              <button type='submit' className={style["login__content-btn"]} >
-                Kirish
-              </button>
-            </div>
-
-          </form>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
   );
 };
 

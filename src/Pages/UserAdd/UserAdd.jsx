@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import style from './userAdd.module.scss';
+import Loader from '../../Components/Loader';
 
 const UserAdd = () => {
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
   const [values, setValues] = useState({ first_name: "", last_name: "", age: "", role: "employee", username: "", password: "" });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (role !== "admin") {
@@ -15,6 +17,8 @@ const UserAdd = () => {
       navigate("/");
       return;
     };
+
+    setLoading(false);
   }, []);
 
   async function handleRegister(e) {
@@ -40,12 +44,6 @@ const UserAdd = () => {
 
     try {
       let { data } = await axios.post("/users", values);
-
-      if (!data) {
-        toast("Serverda xatolik", { type: "error" });
-        navigate(-1);
-        return;
-      };
 
       toast("Foydalanuvchi ro'yxatdan o'tkazildi", { type: "success" });
       navigate("/users");
@@ -78,149 +76,151 @@ const UserAdd = () => {
   };
 
   return (
-    <div className={style["userAdd"]}>
-      <div className="container">
-        <div className={style["userAdd__content"]}>
+    loading
+      ? <Loader />
+      : <div className={style["userAdd"]}>
+        <div className="container">
+          <div className={style["userAdd__content"]}>
 
-          <div className={style["userAdd__content-backBtn"]}>
-            <button onClick={back} className={style["userAdd__content-back"]}>Ortga qaytish</button>
+            <div className={style["userAdd__content-backBtn"]}>
+              <button onClick={back} className={style["userAdd__content-back"]}>Ortga qaytish</button>
+            </div>
+
+            <form onSubmit={handleRegister} className={style["userAdd__content-form"]}>
+
+              <h1 className={style["userAdd__content-title"]}>
+                Ro'yxatdan o'tkazish <abbr className={style["userAdd__content-abbr"]} title={info}>
+                  <i className="fa-solid fa-circle-info"></i>
+                </abbr>
+              </h1>
+
+              <div className={style["userAdd__content-row"]}>
+
+                <div className={style["userAdd__content-fullName"]}>
+                  <div className={style["userAdd__content-inputs"]}>
+                    <label
+                      htmlFor="first_name"
+                      className={style["userAdd__content-label"]}
+                    >
+                      Ism
+                    </label>
+
+                    <input
+                      type="text"
+                      id='first_name'
+                      name='first_name'
+                      value={values.first_name}
+                      onChange={handleInputChange}
+                      className={style["userAdd__content-input"]}
+                    />
+                  </div>
+
+                  <div className={style["userAdd__content-inputs"]}>
+                    <label
+                      htmlFor="last_name"
+                      className={style["userAdd__content-label"]}
+                    >
+                      Familiya
+                    </label>
+
+                    <input
+                      type="text"
+                      id='last_name'
+                      name='last_name'
+                      value={values.last_name}
+                      onChange={handleInputChange}
+                      className={style["userAdd__content-input"]}
+                    />
+                  </div>
+                </div>
+
+
+                <div className={style["userAdd__content-inputs"]}>
+                  <label
+                    htmlFor="age"
+                    className={style["userAdd__content-label"]}
+                  >
+                    Yosh
+                  </label>
+
+                  <input
+                    type="number"
+                    id='age'
+                    name='age'
+                    value={values.age}
+                    onChange={handleInputChange}
+                    className={style["userAdd__content-input"]}
+                  />
+                </div>
+
+                <div className={style["userAdd__content-inputs"]}>
+                  <label
+                    htmlFor="username"
+                    className={style["userAdd__content-label"]}
+                  >
+                    Username
+                  </label>
+
+                  <input
+                    type="text"
+                    id='username'
+                    name='username'
+                    value={values.username}
+                    onChange={handleInputChange}
+                    className={style["userAdd__content-input"]}
+                  />
+                </div>
+
+                <div className={style["userAdd__content-inputs"]}>
+                  <label
+                    htmlFor="password"
+                    className={style["userAdd__content-label"]}
+                  >
+                    Password
+                  </label>
+
+                  <input
+                    type="password"
+                    id='password'
+                    name='password'
+                    value={values.password}
+                    onChange={handleInputChange}
+                    className={style["userAdd__content-input"]}
+                  />
+                </div>
+
+              </div>
+
+              <div className={style["userAdd__content-buttons"]}>
+
+                <div className={style["userAdd__content-checkbox"]}>
+                  <label
+                    htmlFor="role"
+                    className={style["userAdd__content-label"]}
+                  >
+                    Admin
+                  </label>
+
+                  <input
+                    type="checkbox"
+                    id='role'
+                    name='role'
+                    value={values.role}
+                    onChange={handleCheck}
+                    className={style["userAdd__content-check"]}
+                  />
+                </div>
+
+                <button type='submit' className={style["userAdd__content-btn"]} >
+                  Ro'xatdan o'tkazish
+                </button>
+
+              </div>
+
+            </form>
           </div>
-
-          <form onSubmit={handleRegister} className={style["userAdd__content-form"]}>
-
-            <h1 className={style["userAdd__content-title"]}>
-              Ro'yxatdan o'tkazish <abbr className={style["userAdd__content-abbr"]} title={info}>
-                <i className="fa-solid fa-circle-info"></i>
-              </abbr>
-            </h1>
-
-            <div className={style["userAdd__content-row"]}>
-
-              <div className={style["userAdd__content-fullName"]}>
-                <div className={style["userAdd__content-inputs"]}>
-                  <label
-                    htmlFor="first_name"
-                    className={style["userAdd__content-label"]}
-                  >
-                    Ism
-                  </label>
-
-                  <input
-                    type="text"
-                    id='first_name'
-                    name='first_name'
-                    value={values.first_name}
-                    onChange={handleInputChange}
-                    className={style["userAdd__content-input"]}
-                  />
-                </div>
-
-                <div className={style["userAdd__content-inputs"]}>
-                  <label
-                    htmlFor="last_name"
-                    className={style["userAdd__content-label"]}
-                  >
-                    Familiya
-                  </label>
-
-                  <input
-                    type="text"
-                    id='last_name'
-                    name='last_name'
-                    value={values.last_name}
-                    onChange={handleInputChange}
-                    className={style["userAdd__content-input"]}
-                  />
-                </div>
-              </div>
-
-
-              <div className={style["userAdd__content-inputs"]}>
-                <label
-                  htmlFor="age"
-                  className={style["userAdd__content-label"]}
-                >
-                  Yosh
-                </label>
-
-                <input
-                  type="number"
-                  id='age'
-                  name='age'
-                  value={values.age}
-                  onChange={handleInputChange}
-                  className={style["userAdd__content-input"]}
-                />
-              </div>
-
-              <div className={style["userAdd__content-inputs"]}>
-                <label
-                  htmlFor="username"
-                  className={style["userAdd__content-label"]}
-                >
-                  Username
-                </label>
-
-                <input
-                  type="text"
-                  id='username'
-                  name='username'
-                  value={values.username}
-                  onChange={handleInputChange}
-                  className={style["userAdd__content-input"]}
-                />
-              </div>
-
-              <div className={style["userAdd__content-inputs"]}>
-                <label
-                  htmlFor="password"
-                  className={style["userAdd__content-label"]}
-                >
-                  Password
-                </label>
-
-                <input
-                  type="password"
-                  id='password'
-                  name='password'
-                  value={values.password}
-                  onChange={handleInputChange}
-                  className={style["userAdd__content-input"]}
-                />
-              </div>
-
-            </div>
-
-            <div className={style["userAdd__content-buttons"]}>
-
-              <div className={style["userAdd__content-checkbox"]}>
-                <label
-                  htmlFor="role"
-                  className={style["userAdd__content-label"]}
-                >
-                  Admin
-                </label>
-
-                <input
-                  type="checkbox"
-                  id='role'
-                  name='role'
-                  value={values.role}
-                  onChange={handleCheck}
-                  className={style["userAdd__content-check"]}
-                />
-              </div>
-
-              <button type='submit' className={style["userAdd__content-btn"]} >
-                Ro'xatdan o'tkazish
-              </button>
-
-            </div>
-
-          </form>
         </div>
       </div>
-    </div>
   );
 }
 

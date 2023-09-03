@@ -14,7 +14,7 @@ const TasksAll = () => {
   const dispatch = useDispatch();
   const role = localStorage.getItem("role");
   const [refresh, setRefresh] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [task, setTask] = useState([]);
   const [URL, setURL] = useState("/user-guides/all");
   const [filter, setFilter] = useState({ completed: "all" });
@@ -28,7 +28,6 @@ const TasksAll = () => {
 
     async function getGuides() {
       try {
-        setLoading(true);
         let { data } = await axios.get(`${URL}`);
         setTask(data);
         setLoading(false);
@@ -36,6 +35,8 @@ const TasksAll = () => {
         setFilter({ completed: "all" });
       } catch (error) {
         toast(error.response.data.error, { type: "error" });
+        setURL("/user-guides/all");
+        setRefresh(!refresh);
       };
     };
     getGuides();

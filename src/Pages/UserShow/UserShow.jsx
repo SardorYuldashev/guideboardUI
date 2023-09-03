@@ -12,7 +12,7 @@ const UserShow = () => {
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
   const [user, setUser] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
@@ -24,12 +24,13 @@ const UserShow = () => {
 
     async function getUser() {
       try {
-        setLoading(true);
         let { data } = await axios.get(`/users/${id}`);
+
         setUser(data.data);
         setLoading(false)
       } catch (error) {
         toast(error.response.data.error, { type: "error" });
+        navigate("/users");
       };
     };
     getUser();
@@ -46,16 +47,11 @@ const UserShow = () => {
       setLoading(true);
       let { data } = await axios.delete(`/users/${id}`);
 
-      if (!data) {
-        toast("Serverda xatolik", { type: "error" });
-        navigate(-1);
-        return;
-      };
       toast("Foydalanuvchi o'chirildi", { type: "success" });
       setLoading(false);
       navigate(-1);
     } catch (error) {
-      toast(error.response.data.error, { type: "warning" });
+      toast(error.response.data.error, { type: "error" });
       navigate(-1);
     };
   };
@@ -72,12 +68,7 @@ const UserShow = () => {
     try {
       let { data } = await axios.patch(`/users/${id}`, value);
 
-      if (!data) {
-        toast("Serverda xatolik", { type: "error" });
-        navigate(`/users/${id}`);
-        return;
-      };
-
+      toast("Lavozim o'zgartirildi", { type: "success" });
       setRefresh(!refresh);
     } catch (error) {
       toast(error.response.data.error, { type: "error" });

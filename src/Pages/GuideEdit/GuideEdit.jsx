@@ -13,7 +13,7 @@ const GuideEdit = () => {
   const { id } = useParams();
   const role = localStorage.getItem("role");
   const [values, setValues] = useState({ title: "", content: "", notify: false });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (role !== "admin") {
@@ -24,13 +24,13 @@ const GuideEdit = () => {
 
     async function getGuide() {
       try {
-        setLoading(true);
         let { data } = await axios.get(`/guides/${id}`);
 
         setValues({ title: data.data.title, content: data.data.content, notify: false });
         setLoading(false);
       } catch (error) {
         toast(error.response.data.error, { type: "error" });
+        navigate("/");
       };
     };
     getGuide();
@@ -55,6 +55,7 @@ const GuideEdit = () => {
       navigate(-1);
     } catch (error) {
       toast(error.response.data.error, { type: "error" });
+      navigate("/");
     };
   };
 

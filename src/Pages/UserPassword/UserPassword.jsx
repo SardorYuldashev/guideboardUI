@@ -3,12 +3,14 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import Loader from '../../Components/Loader';
 
 const UserPassword = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
   const [values, setValues] = useState({ password: "", confirm: "" });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (role !== "admin") {
@@ -16,6 +18,8 @@ const UserPassword = () => {
       navigate("/");
       return;
     };
+
+    setLoading(false);
   }, []);
 
   function handleInputChange(e) {
@@ -37,11 +41,6 @@ const UserPassword = () => {
 
     try {
       let { data } = await axios.patch(`/users/${id}`, { password: values.password });
-      if (!data) {
-        toast("Serverda xatolik", { type: "error" });
-        navigate(-1);
-        return;
-      };
 
       toast("Parol o'zgartirildi", { type: "success" });
       navigate(-1);
@@ -57,74 +56,76 @@ const UserPassword = () => {
   };
 
   return (
-    <div className={style["userPassword"]}>
-      <div className="container">
-        <div className={style["userPassword__content"]}>
+    loading
+      ? <Loader />
+      : <div className={style["userPassword"]}>
+        <div className="container">
+          <div className={style["userPassword__content"]}>
 
-          <div className={style["userPassword__content-backBtn"]}>
-            <button onClick={back} className={style["userPassword__content-back"]}>Ortga qaytish</button>
+            <div className={style["userPassword__content-backBtn"]}>
+              <button onClick={back} className={style["userPassword__content-back"]}>Ortga qaytish</button>
+            </div>
+
+
+            <form onSubmit={editPassword} className={style["userPassword__content-form"]}>
+
+              <h1 className={style["userPassword__content-title"]}>
+                Passwordni almashtirish
+                <abbr className={style["userPassword__content-abbr"]} title={info}>
+                  <i className="fa-solid fa-circle-info"></i>
+                </abbr>
+              </h1>
+
+              <div className={style["userPassword__content-row"]}>
+
+                <div className={style["userPassword__content-inputs"]}>
+                  <label
+                    htmlFor="password"
+                    className={style["userPassword__content-label"]}
+                  >
+                    Yangi parol
+                  </label>
+
+                  <input
+                    type="password"
+                    id='password'
+                    name='password'
+                    value={values.password}
+                    onChange={handleInputChange}
+                    className={style["userPassword__content-input"]}
+                  />
+                </div>
+
+                <div className={style["userPassword__content-inputs"]}>
+                  <label
+                    htmlFor="confirm"
+                    className={style["userPassword__content-label"]}
+                  >
+                    Parolni takrorlang
+                  </label>
+
+                  <input
+                    type="password"
+                    id='confirm'
+                    name='confirm'
+                    value={values.confirm}
+                    onChange={handleInputChange}
+                    className={style["userPassword__content-input"]}
+                  />
+                </div>
+
+              </div>
+
+              <div className={style["userPassword__content-buttons"]}>
+                <button type='submit' className={style["userPassword__content-btn"]} >
+                  Saqlash
+                </button>
+              </div>
+
+            </form>
           </div>
-
-
-          <form onSubmit={editPassword} className={style["userPassword__content-form"]}>
-
-            <h1 className={style["userPassword__content-title"]}>
-              Passwordni almashtirish
-              <abbr className={style["userPassword__content-abbr"]} title={info}>
-                <i className="fa-solid fa-circle-info"></i>
-              </abbr>
-            </h1>
-
-            <div className={style["userPassword__content-row"]}>
-
-              <div className={style["userPassword__content-inputs"]}>
-                <label
-                  htmlFor="password"
-                  className={style["userPassword__content-label"]}
-                >
-                  Yangi parol
-                </label>
-
-                <input
-                  type="password"
-                  id='password'
-                  name='password'
-                  value={values.password}
-                  onChange={handleInputChange}
-                  className={style["userPassword__content-input"]}
-                />
-              </div>
-
-              <div className={style["userPassword__content-inputs"]}>
-                <label
-                  htmlFor="confirm"
-                  className={style["userPassword__content-label"]}
-                >
-                  Parolni takrorlang
-                </label>
-
-                <input
-                  type="password"
-                  id='confirm'
-                  name='confirm'
-                  value={values.confirm}
-                  onChange={handleInputChange}
-                  className={style["userPassword__content-input"]}
-                />
-              </div>
-
-            </div>
-
-            <div className={style["userPassword__content-buttons"]}>
-              <button type='submit' className={style["userPassword__content-btn"]} >
-                Saqlash
-              </button>
-            </div>
-
-          </form>
         </div>
       </div>
-    </div>
   );
 };
 

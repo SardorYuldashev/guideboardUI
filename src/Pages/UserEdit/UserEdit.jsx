@@ -10,7 +10,7 @@ const UserEdit = () => {
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
   const [values, setValues] = useState({ first_name: "", last_name: "", age: "", username: "" });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (role !== "admin") {
@@ -21,13 +21,14 @@ const UserEdit = () => {
 
     async function getUser() {
       try {
-        setLoading(true);
         let { data } = await axios.get(`/users/${id}`);
+
         let user = data.data
         setValues({ first_name: user.first_name, last_name: user.last_name, age: user.age, username: user.username });
         setLoading(false);
       } catch (error) {
         toast(error.response.data.error, { type: "error" });
+        navigate("/");
       };
     };
     getUser();
@@ -44,12 +45,6 @@ const UserEdit = () => {
 
     try {
       let { data } = await axios.patch(`/users/${id}`, values);
-
-      if (!data) {
-        toast("Serverda xatolik", { type: "error" });
-        navigate(-1);
-        return;
-      };
 
       toast("Foydalanuvchi ma'lumotlari tahrirlandi", { type: "success" });
       navigate(-1);

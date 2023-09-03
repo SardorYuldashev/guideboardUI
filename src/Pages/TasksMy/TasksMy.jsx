@@ -9,7 +9,7 @@ import Loader from './../../Components/Loader';
 
 const TasksMy = () => {
   const [refresh, setRefresh] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [tasks, setTasks] = useState([]);
   const [URL, setURL] = useState("/user-guides");
   const [filter, setFilter] = useState({ completed: "false" });
@@ -17,14 +17,16 @@ const TasksMy = () => {
   useEffect(() => {
     async function getGuides() {
       try {
-        setLoading(true);
         let { data } = await axios.get(`${URL}`);
+
         setTasks(data);
         setLoading(false);
         setURL("/user-guides");
         setFilter({ completed: false });
       } catch (error) {
         toast(error.response.data.error, { type: "error" });
+        setURL("/user-guides");
+        setRefresh(!refresh);
       };
     };
     getGuides();
@@ -105,7 +107,7 @@ const TasksMy = () => {
                             </div>
                           </Link>
                         </li>
-                        
+
                       ))
                     }
 

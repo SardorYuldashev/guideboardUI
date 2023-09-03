@@ -9,7 +9,7 @@ const Users = () => {
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
   const [search, setSearch] = useState('');
   const [URL, setURL] = useState('/users');
@@ -33,7 +33,6 @@ const Users = () => {
 
     async function getGuides() {
       try {
-        setLoading(true);
         let { data } = await axios.get(`${URL}`);
         setUsers(data);
         setLoading(false);
@@ -43,6 +42,7 @@ const Users = () => {
         setFilter("");
       } catch (error) {
         toast(error.response.data.error, { type: "error" });
+        navigate("/");
       };
     };
     getGuides();
@@ -119,11 +119,6 @@ const Users = () => {
       setLoading(true);
       let { data } = await axios.delete(`/users/${id}`);
 
-      if (!data) {
-        toast("Serverda xatolik", { type: "error" });
-        setRefresh(!refresh);
-        return;
-      };
       toast("Foydalanuvchi o'chirildi", { type: "success" });
       setLoading(false);
       setRefresh(!refresh);

@@ -10,21 +10,21 @@ const GuideShow = () => {
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
   const [guide, setGuide] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function showGuide() {
       try {
-        setLoading(true);
         let { data } = await axios.get(`/guides/${id}`);
+
         setGuide(data.data);
         setLoading(false);
       } catch (error) {
         toast(error.response.data.error, { type: "error" });
+        navigate("/");
       };
     };
     showGuide();
-
   }, []);
 
   function back() {
@@ -42,16 +42,12 @@ const GuideShow = () => {
       setLoading(true);
       let { data } = await axios.delete(`/guides/${id}`);
 
-      if (!data) {
-        toast("Serverda xatolik", { type: "error" });
-        navigate("/");
-        return;
-      };
       toast("Qoida o'chirildi", { type: "success" });
       setLoading(false);
       navigate("/");
     } catch (error) {
       toast(error.response.data.error, { type: "error" });
+      navigate("/");
     };
   };
 

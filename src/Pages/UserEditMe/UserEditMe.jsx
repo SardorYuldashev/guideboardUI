@@ -8,12 +8,11 @@ import Loader from './../../Components/Loader';
 const UserEditMe = () => {
   const navigate = useNavigate();
   const [values, setValues] = useState({ first_name: "", last_name: "", age: "", username: "" });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function getUser() {
       try {
-        setLoading(true);
         let { data } = await axios.get(`/users/me`);
         let user = data.data
         setValues({ first_name: user.first_name, last_name: user.last_name, age: user.age, username: user.username });
@@ -25,7 +24,7 @@ const UserEditMe = () => {
     getUser();
   }, []);
 
-  async function handleRegister(e) {
+  async function handleEditMe(e) {
     e.preventDefault();
     if (values.first_name.length < 3) return toast("Ism uzunligi 3 ta belgidan kam", { type: "error" });
 
@@ -35,12 +34,6 @@ const UserEditMe = () => {
 
     try {
       let { data } = await axios.patch(`/users/me`, values);
-
-      if (!data) {
-        toast("Serverda xatolik", { type: "error" });
-        navigate(-1);
-        return;
-      };
 
       toast("Shaxsiy ma'lumotlar tahrirlandi", { type: "success" });
       navigate(-1);
@@ -75,7 +68,7 @@ const UserEditMe = () => {
             </div>
 
 
-            <form onSubmit={handleRegister} className={style["userEdit__content-form"]}>
+            <form onSubmit={handleEditMe} className={style["userEdit__content-form"]}>
 
               <h1 className={style["userEdit__content-title"]}>
                 Shaxsiy ma'lumotlarni tahrirlash <abbr className={style["userEdit__content-abbr"]} title={info}>
