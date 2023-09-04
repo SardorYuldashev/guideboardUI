@@ -13,6 +13,7 @@ import GuideAdd from './Pages/GuideAdd';
 import GuideShow from './Pages/GuideShow';
 import GuideEdit from './Pages/GuideEdit';
 import UserPassword from './Pages/UserPassword';
+import TaskSend from './Pages/TaskSend';
 import TaskAdd from './Pages/TaskAdd';
 import TasksMy from './Pages/TasksMy';
 import TaskShow from './Pages/TaskShow';
@@ -38,7 +39,8 @@ function App() {
           <Route path='/profile' element={<Profile />} />
           <Route path='/tasks' element={<TasksAll />} />
           <Route path='/tasks/my' element={<TasksMy />} />
-          <Route path='/tasks/add/:id' element={<TaskAdd />} />
+          <Route path='/tasks/add' element={<TaskAdd />} />
+          <Route path='/tasks/add/:id' element={<TaskSend />} />
           <Route path='/tasks/:id' element={<TaskShow />} />
         </Route>
 

@@ -1,4 +1,5 @@
-import style from './taskAdd.module.scss';
+import style from './taskSend.module.scss';
+import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
@@ -7,7 +8,8 @@ import { useDispatch } from 'react-redux';
 import { loadRefreshData } from '../../Store/slices/refresh';
 import Loader from '../../Components/Loader';
 
-const TaskAdd = () => {
+const TaskSend = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const role = localStorage.getItem("role");
@@ -25,7 +27,7 @@ const TaskAdd = () => {
 
     async function getGuide() {
       try {
-        let { data } = await axios.get(`/guides`);
+        let { data } = await axios.get(`/guides/${id}`);
         setGuide(data.data);
 
         let users = await axios.get(`/users`);
@@ -53,7 +55,7 @@ const TaskAdd = () => {
     };
 
     try {
-      // const { data } = await axios.post("/user-guides", { guide_id: id, ...values });
+      const { data } = await axios.post("/user-guides", { guide_id: id, ...values });
 
       setValues({ user_ids: [] });
       toast(data.data.message, { type: "success" });
@@ -89,7 +91,7 @@ const TaskAdd = () => {
             <form onSubmit={handleSubmit} className={style["taskSend__content-form"]}>
 
               <h1 className={style["taskSend__content-title"]}>
-                Vazifa yaratish
+                Vazifani jo'natish
               </h1>
 
               <div className={style["taskSend__content-row"]}>
@@ -100,7 +102,7 @@ const TaskAdd = () => {
                   </p>
 
                   <p className={style["taskSend__content-task"]}>
-                    Mana shunaqa qoida
+                    {guide.title}
                   </p>
                 </div>
 
@@ -145,7 +147,7 @@ const TaskAdd = () => {
 
               <div className={style["taskSend__content-buttons"]}>
                 <button type='submit' className={style["taskSend__content-btn"]} >
-                  Yaratish
+                  Jo'natish
                 </button>
               </div>
 
@@ -157,4 +159,4 @@ const TaskAdd = () => {
   );
 };
 
-export default TaskAdd;
+export default TaskSend;

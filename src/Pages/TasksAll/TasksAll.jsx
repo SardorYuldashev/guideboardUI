@@ -99,6 +99,10 @@ const TasksAll = () => {
               <h1 className={style["tasksAll__content-text"]}>
                 Vazifalar
               </h1>
+
+              <Link to="/tasks/add" className={style["tasksAll__content-add"]}>
+                Vazifa yaratish
+              </Link>
             </div>
 
             <div className={style["tasksAll__content-tools"]}>
