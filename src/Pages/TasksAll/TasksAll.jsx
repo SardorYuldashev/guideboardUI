@@ -97,7 +97,7 @@ const TasksAll = () => {
 
             <div className={style["tasksAll__content-top"]}>
               <h1 className={style["tasksAll__content-text"]}>
-                Barcha vazifalar
+                Vazifalar
               </h1>
             </div>
 
@@ -197,7 +197,7 @@ const TasksAll = () => {
                     <p className={style["tasksAll__content-buttons"]}>
 
                       <Link className={style["tasksAll__content-btn"]}>
-                        <i className="fa-solid fa-pen"></i>
+                        <i className="fa-solid fa-eye"></i>
                       </Link>
 
                       <button onClick={() => { deleteTask(item.id) }} className={style["tasksAll__content-btn"]}>

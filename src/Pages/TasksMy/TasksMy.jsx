@@ -51,7 +51,7 @@ const TasksMy = () => {
 
             <div className={style["tasksMy__content-top"]}>
               <h1 className={style["tasksMy__content-text"]}>
-                Mening vazifalarim
+                Vazifalarim
               </h1>
             </div>
 

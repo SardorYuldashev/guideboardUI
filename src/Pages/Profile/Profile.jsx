@@ -33,7 +33,7 @@ const Profile = () => {
 
             <div className={style["profile__content-top"]}>
               <h1 className={style["profile__content-text"]}>
-                Shaxsiy ma'lumotlar
+                Shaxsiy kabinet
               </h1>
             </div>
 

@@ -6,7 +6,7 @@
     &-buttons {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
     }
 
     &-btn {
@@ -27,33 +27,29 @@
 
     &-tools {
       display: flex;
-      gap: 25px;
+      gap: 5px;
     }
 
     &-tool {
+      width: 100px;
+      padding: 10px 15px;
       border: none;
-      background: none;
-      font-size: 30px;
+      border-radius: 10px;
+      font-size: 18px;
       cursor: pointer;
-
-      i {
-        transition: .3s;
-      }
-
-      &:nth-child(1) {
-        color: #7a7c0a;
-      }
-
-      &:nth-child(2) {
-        color: #1900ff;
-      }
+      transition: .3s;
+      font-weight: 600;
+      background: #302929;
+      color: white;
 
       &:nth-child(3) {
-        color: #ff0000;
+        &:hover {
+          background: #ff0000;
+        }
       }
 
-      :hover {
-        text-shadow: 0 0 15px #8585f7;
+      &:hover {
+        background: #5fb6f0;
       }
     }
 
