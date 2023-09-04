@@ -120,12 +120,19 @@
     }
 
     &-titleBox {
+      text-decoration: none;
+      color: #000000;
       width: 286px;
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
       -webkit-line-clamp: 1;
       -webkit-box-orient: vertical;
+      transition: .3s;
+
+      &:hover {
+        color: #ff0000;
+      }
     }
 
     &-imgBox {

@@ -12,9 +12,10 @@ const TaskAdd = () => {
   const dispatch = useDispatch();
   const role = localStorage.getItem("role");
   const [loading, setLoading] = useState(true);
-  const [guide, setGuide] = useState({});
   const [users, setUsers] = useState([]);
   const [values, setValues] = useState({ user_ids: [] });
+  const [guides, setGuides] = useState({});
+  const [select, setSelect] = useState({ guide_id: "" });
 
   useEffect(() => {
     if (role !== "admin") {
@@ -26,7 +27,18 @@ const TaskAdd = () => {
     async function getGuide() {
       try {
         let { data } = await axios.get(`/guides`);
-        setGuide(data.data);
+
+        const newData = data.data.map((item) => {
+          let arr = { id: item.id }
+          if (item.title.length < 96) {
+            arr.title = item.title
+          } else {
+            arr.title = `${(item.title.slice(0, 75))}...`
+          }
+          return arr;
+        });
+
+        setGuides(newData);
 
         let users = await axios.get(`/users`);
         setUsers(users.data.data);
@@ -47,15 +59,21 @@ const TaskAdd = () => {
   async function handleSubmit(e) {
     e.preventDefault();
 
+    if (select.guide_id === "") {
+      toast("Qoida tanlanmagan", { type: "error" });
+      return;
+    };
+
     if (values.user_ids.length === 0) {
       toast("Foydalanuvchilar tanlanmagan", { type: "error" });
       return;
     };
 
     try {
-      // const { data } = await axios.post("/user-guides", { guide_id: id, ...values });
+      const { data } = await axios.post("/user-guides", { ...select, ...values });
 
       setValues({ user_ids: [] });
+      setSelect({ guide_id: "" });
       toast(data.data.message, { type: "success" });
       dispatch(loadRefreshData(true));
       navigate(-1);
@@ -75,50 +93,76 @@ const TaskAdd = () => {
     };
   };
 
+  function handleSelectInput(e) {
+    if (e.target.value === "") {
+      setSelect({ [e.target.name]: e.target.value });
+    } else {
+      setSelect({ [e.target.name]: +e.target.value });
+    };
+  };
+
   return (
     loading
       ? <Loader />
-      : <div className={style["taskSend"]}>
+      : <div className={style["taskAdd"]}>
         <div className="container">
-          <div className={style["taskSend__content"]}>
+          <div className={style["taskAdd__content"]}>
 
-            <div className={style["taskSend__content-backBtn"]}>
-              <button onClick={back} className={style["taskSend__content-btn"]}>Ortga qaytish</button>
+            <div className={style["taskAdd__content-backBtn"]}>
+              <button onClick={back} className={style["taskAdd__content-btn"]}>Ortga qaytish</button>
             </div>
 
-            <form onSubmit={handleSubmit} className={style["taskSend__content-form"]}>
+            <form onSubmit={handleSubmit} className={style["taskAdd__content-form"]}>
 
-              <h1 className={style["taskSend__content-title"]}>
+              <h1 className={style["taskAdd__content-title"]}>
                 Vazifa yaratish
               </h1>
 
-              <div className={style["taskSend__content-row"]}>
+              <div className={style["taskAdd__content-row"]}>
 
-                <div className={style["taskSend__content-inputs"]}>
-                  <p className={style["taskSend__content-subtitle"]}>
+                <div className={style["taskAdd__content-inputs"]}>
+                  <p className={style["taskAdd__content-subtitle"]}>
                     Qoida
                   </p>
 
-                  <p className={style["taskSend__content-task"]}>
-                    Mana shunaqa qoida
-                  </p>
+                  <select
+                    name="guide_id"
+                    onChange={handleSelectInput}
+                    className={style["taskAdd__content-select"]}
+                  >
+
+                    <option value="" className={style["taskAdd__content-option"]} >Qoidani tanlang</option>
+
+                    {
+                      guides.map(item => (
+                        <option
+                          key={item.id}
+                          value={item.id}
+                          className={style["taskAdd__content-option"]}
+                        >
+                          {item.title}
+                        </option>
+                      ))
+                    }
+
+                  </select>
                 </div>
 
-                <div className={style["taskSend__content-inputs"]}>
-                  <p className={style["taskSend__content-subtitle"]} >
+                <div className={style["taskAdd__content-inputs"]}>
+                  <p className={style["taskAdd__content-subtitle"]} >
                     Foydalanuvchilar
                   </p>
 
-                  <ul className={style["taskSend__content-list"]}>
+                  <ul className={style["taskAdd__content-list"]}>
 
                     {
                       users.map(user => (
                         <li
-                          className={style["taskSend__content-li"]}
+                          className={style["taskAdd__content-li"]}
                           key={user.id}
                         >
                           <input
-                            className={style["taskSend__content-check"]}
+                            className={style["taskAdd__content-check"]}
                             onChange={handleIputChange}
                             type="checkbox"
                             name={user.id}
@@ -126,10 +170,10 @@ const TaskAdd = () => {
                             value={user.id} />
 
                           <label
-                            className={style["taskSend__content-user"]}
+                            className={style["taskAdd__content-user"]}
                             htmlFor={user.id}
                           >
-                            <p className={style["taskSend__content-fullName"]}>
+                            <p className={style["taskAdd__content-fullName"]}>
                               {user.first_name} {user.last_name}
                             </p>
                             {user.role === "admin" ? <span>ADMIN</span> : <span></span>}
@@ -143,8 +187,8 @@ const TaskAdd = () => {
 
               </div>
 
-              <div className={style["taskSend__content-buttons"]}>
-                <button type='submit' className={style["taskSend__content-btn"]} >
+              <div className={style["taskAdd__content-buttons"]}>
+                <button type='submit' className={style["taskAdd__content-btn"]} >
                   Yaratish
                 </button>
               </div>

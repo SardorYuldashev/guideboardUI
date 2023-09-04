@@ -164,7 +164,9 @@ const TasksAll = () => {
                     </p>
 
                     <p className={style["tasksAll__content-info"]}>
-                      {item.user.first_name} {item.user.last_name}
+                      <Link to={`/users/${item.guide.id}`} className={style["tasksAll__content-titleBox"]}>
+                        {item.user.first_name} {item.user.last_name}
+                      </Link>
                     </p>
 
                     <p className={style["tasksAll__content-info"]}>
@@ -176,9 +178,9 @@ const TasksAll = () => {
                     </p>
 
                     <div className={style["tasksAll__content-info"]}>
-                      <p className={style["tasksAll__content-titleBox"]}>
+                      <Link to={`/guides/${item.guide.id}`} className={style["tasksAll__content-titleBox"]}>
                         ID:{item.guide.id} - {item.guide.title}
-                      </p>
+                      </Link>
                     </div>
 
                     <div className={style["tasksAll__content-info"]}>
@@ -199,11 +201,6 @@ const TasksAll = () => {
                     </div>
 
                     <p className={style["tasksAll__content-buttons"]}>
-
-                      <Link className={style["tasksAll__content-btn"]}>
-                        <i className="fa-solid fa-eye"></i>
-                      </Link>
-
                       <button onClick={() => { deleteTask(item.id) }} className={style["tasksAll__content-btn"]}>
                         <i className="fa-solid fa-trash"></i>
                       </button>
