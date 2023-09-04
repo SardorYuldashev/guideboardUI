@@ -71,9 +71,9 @@ const GuideShow = () => {
                       <i className="fa-solid fa-pen"></i>
                     </Link>
 
-                    <button className={style["guideShow__content-tool"]}>
+                    <Link to={`/tasks/add/${id}`} className={style["guideShow__content-tool"]}>
                       <i className="fa-solid fa-share-nodes"></i>
-                    </button>
+                    </Link>
 
                     <button onClick={deleteGuide} className={style["guideShow__content-tool"]}>
                       <i className="fa-solid fa-trash"></i>
