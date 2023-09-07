@@ -23,7 +23,6 @@ import './index.css';
 import { Provider } from 'react-redux';
 import store from './Store';
 
-
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Router>
     <Provider store={store}>

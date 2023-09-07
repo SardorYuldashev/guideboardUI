@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
@@ -14,8 +14,9 @@ const UserEditMe = () => {
     async function getUser() {
       try {
         let { data } = await axios.get(`/users/me`);
-        let user = data.data
+        let user = data.data;
         setValues({ first_name: user.first_name, last_name: user.last_name, age: user.age, username: user.username });
+
         setLoading(false);
       } catch (error) {
         toast(error.response.data.error, { type: "error" });
@@ -26,10 +27,9 @@ const UserEditMe = () => {
 
   async function handleEditMe(e) {
     e.preventDefault();
+
     if (values.first_name.length < 3) return toast("Ism uzunligi 3 ta belgidan kam", { type: "error" });
-
     if (values.last_name.length < 3) return toast("Familiya uzunligi 3 ta belgidan kam", { type: "error" });
-
     if (values.username.length < 3) return toast("Usename uzunligi 3 ta belgidan kam", { type: "error" });
 
     try {
@@ -67,9 +67,7 @@ const UserEditMe = () => {
               <button onClick={back} className={style["userEdit__content-back"]}>Ortga qaytish</button>
             </div>
 
-
             <form onSubmit={handleEditMe} className={style["userEdit__content-form"]}>
-
               <h1 className={style["userEdit__content-title"]}>
                 Shaxsiy ma'lumotlarni tahrirlash <abbr className={style["userEdit__content-abbr"]} title={info}>
                   <i className="fa-solid fa-circle-info"></i>
@@ -77,12 +75,8 @@ const UserEditMe = () => {
               </h1>
 
               <div className={style["userEdit__content-row"]}>
-
                 <div className={style["userEdit__content-inputs"]}>
-                  <label
-                    htmlFor="first_name"
-                    className={style["userEdit__content-label"]}
-                  >
+                  <label htmlFor="first_name" className={style["userEdit__content-label"]}>
                     Ism
                   </label>
 
@@ -97,10 +91,7 @@ const UserEditMe = () => {
                 </div>
 
                 <div className={style["userEdit__content-inputs"]}>
-                  <label
-                    htmlFor="last_name"
-                    className={style["userEdit__content-label"]}
-                  >
+                  <label htmlFor="last_name" className={style["userEdit__content-label"]}>
                     Familiya
                   </label>
 
@@ -115,10 +106,7 @@ const UserEditMe = () => {
                 </div>
 
                 <div className={style["userEdit__content-inputs"]}>
-                  <label
-                    htmlFor="age"
-                    className={style["userEdit__content-label"]}
-                  >
+                  <label htmlFor="age" className={style["userEdit__content-label"]}>
                     Yosh
                   </label>
 
@@ -133,10 +121,7 @@ const UserEditMe = () => {
                 </div>
 
                 <div className={style["userEdit__content-inputs"]}>
-                  <label
-                    htmlFor="username"
-                    className={style["userEdit__content-label"]}
-                  >
+                  <label htmlFor="username" className={style["userEdit__content-label"]}>
                     Username
                   </label>
 
@@ -152,14 +137,12 @@ const UserEditMe = () => {
               </div>
 
               <div className={style["userEdit__content-buttons"]}>
-
                 <button type='submit' className={style["userEdit__content-btn"]} >
                   Tahrirlash
                 </button>
-
               </div>
-
             </form>
+            
           </div>
         </div>
       </div>

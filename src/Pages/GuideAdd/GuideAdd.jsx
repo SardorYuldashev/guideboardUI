@@ -1,4 +1,4 @@
-import style from './guideAdd.module.scss'
+import style from './guideAdd.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
@@ -32,11 +32,8 @@ const GuideAdd = () => {
     e.preventDefault();
 
     if (!values.title) return toast("Sarlavha kiritilmagan", { type: "error" });
-
     if (!values.content) return toast("Qoida matni kiritilmagan", { type: "error" });
-
     if (values.title.length < 3) return toast("Sarlavha uzunligi 3 ta belgidan kam", { type: "error" });
-
     if (values.content.length < 3) return toast("Qoida matni uzunligi 3 ta belgidan kam", { type: "error" });
 
     try {
@@ -81,7 +78,6 @@ const GuideAdd = () => {
             </div>
 
             <form onSubmit={handleSubmit} className={style["addGuide__content-form"]}>
-
               <h1 className={style["addGuide__content-title"]}>
                 Qoida qo'shish <abbr className={style["addGuide__content-abbr"]} title={info}>
                   <i className="fa-solid fa-circle-info"></i>
@@ -89,7 +85,6 @@ const GuideAdd = () => {
               </h1>
 
               <div className={style["addGuide__content-row"]}>
-
                 <div className={style["addGuide__content-inputs"]}>
                   <label
                     htmlFor="title"
@@ -128,11 +123,9 @@ const GuideAdd = () => {
 
                   </textarea>
                 </div>
-
               </div>
 
               <div className={style["addGuide__content-buttons"]}>
-
                 <div className={style["addGuide__content-checkbox"]}>
                   <label
                     htmlFor="notify"
@@ -155,7 +148,6 @@ const GuideAdd = () => {
                   Jo'natish
                 </button>
               </div>
-
             </form>
 
           </div>

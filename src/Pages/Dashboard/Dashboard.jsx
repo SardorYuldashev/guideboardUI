@@ -1,40 +1,30 @@
 import style from './dashboard.module.scss';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import Loader from '../../Components/Loader';
 import pin from '../../assets/images/pin.webp';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { loadURL, loadLimit, loadOffset, loadSearch, loadSort } from '../../Store/slices/guides';
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+  const dispatch = useDispatch();
   const role = localStorage.getItem("role");
   const [guides, setGuides] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
-
-  const dispatch = useDispatch();
   const { URL, limit, offset, search, sort } = useSelector(({ guides }) => guides);
   const [pageArr, setPageArr] = useState(null);
 
   useEffect(() => {
-    if (!token) {
-      navigate("/home");
-      return;
-    };
-
     async function getGuides() {
       try {
         let { data } = await axios.get(`${URL}`);
         setGuides(data);
 
         const pageList = [];
-        const totalPages = Math.ceil(data.pageInfo.total / limit)
-        for (let i = 0; i < totalPages; i++) {
+        for (let i = 0; i < Math.ceil(data.pageInfo.total / limit); i++) {
           pageList.push(i);
         };
         setPageArr(pageList);
@@ -87,6 +77,7 @@ const Dashboard = () => {
       setRefresh(!refresh);;
       return;
     };
+
     dispatch(loadURL(`/guides?q=${search}&sort[by]=id&sort[order]=${sort.order}&page[limit]=${limit}&page[offset]=${offset}`));
     setLoading(true);
     setRefresh(!refresh);
@@ -101,7 +92,6 @@ const Dashboard = () => {
           <div className={style["dashboard__content"]}>
 
             <div className={style["dashboard__content-top"]}>
-
               <h1 className={style["dashboard__content-text"]}>
                 Qoidalar
               </h1>
@@ -113,11 +103,9 @@ const Dashboard = () => {
                   </Link>
                   : <div></div>
               }
-
             </div>
 
             <div className={style["dashboard__content-tools"]}>
-
               <form onSubmit={handleSearch} className={style["dashboard__content-search"]}>
                 <input
                   type="text"
@@ -147,7 +135,6 @@ const Dashboard = () => {
 
                 <button type="submit">OK</button>
               </form>
-
             </div>
 
             <p className={style["dashboard__content-pageInfo"]}>
@@ -157,7 +144,6 @@ const Dashboard = () => {
             <ul className={style["dashboard__content-list"]}>
               {
                 guides?.data?.map((guide) => (
-
                   <li key={guide.id} className={style["dashboard__content-li"]}>
                     <Link to={`/guides/${guide.id}`} className={style["dashboard__content-link"]}>
                       <div className={style["dashboard__content-info"]}>
@@ -183,7 +169,6 @@ const Dashboard = () => {
                   </li>
                 ))
               }
-
             </ul>
 
             <form onSubmit={handleSubmit} className={style["dashboard__content-pageList"]}>

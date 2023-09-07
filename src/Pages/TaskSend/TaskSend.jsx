@@ -89,13 +89,11 @@ const TaskSend = () => {
             </div>
 
             <form onSubmit={handleSubmit} className={style["taskSend__content-form"]}>
-
               <h1 className={style["taskSend__content-title"]}>
                 Vazifani jo'natish
               </h1>
 
               <div className={style["taskSend__content-row"]}>
-
                 <div className={style["taskSend__content-inputs"]}>
                   <p className={style["taskSend__content-subtitle"]}>
                     Qoida
@@ -112,13 +110,9 @@ const TaskSend = () => {
                   </p>
 
                   <ul className={style["taskSend__content-list"]}>
-
                     {
                       users.map(user => (
-                        <li
-                          className={style["taskSend__content-li"]}
-                          key={user.id}
-                        >
+                        <li className={style["taskSend__content-li"]} key={user.id}>
                           <input
                             className={style["taskSend__content-check"]}
                             onChange={handleIputChange}
@@ -127,22 +121,18 @@ const TaskSend = () => {
                             id={user.id}
                             value={user.id} />
 
-                          <label
-                            className={style["taskSend__content-user"]}
-                            htmlFor={user.id}
-                          >
+                          <label className={style["taskSend__content-user"]} htmlFor={user.id}>
                             <p className={style["taskSend__content-fullName"]}>
                               {user.first_name} {user.last_name}
                             </p>
+
                             {user.role === "admin" ? <span>ADMIN</span> : <span></span>}
                           </label>
                         </li>
                       ))
                     }
-
                   </ul>
                 </div>
-
               </div>
 
               <div className={style["taskSend__content-buttons"]}>
@@ -150,7 +140,6 @@ const TaskSend = () => {
                   Jo'natish
                 </button>
               </div>
-
             </form>
 
           </div>

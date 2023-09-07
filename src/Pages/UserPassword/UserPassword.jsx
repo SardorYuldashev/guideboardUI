@@ -30,13 +30,9 @@ const UserPassword = () => {
     e.preventDefault();
 
     if (!values.password) return toast("Password kiritilmagan", { type: "error" });
-
     if (!values.confirm) return toast("Password taskrorlanmagan", { type: "error" });
-
     if (values.password.length < 4) return toast("Password uzunligi 4 ta belgidan kam", { type: "error" });
-
     if (values.confirm.length < 4) return toast("Password va confirm bir xil emas", { type: "error" });
-
     if (values.password !== values.confirm) return toast("Password va confirm bir xil emas", { type: "error" });
 
     try {
@@ -63,12 +59,12 @@ const UserPassword = () => {
           <div className={style["userPassword__content"]}>
 
             <div className={style["userPassword__content-backBtn"]}>
-              <button onClick={back} className={style["userPassword__content-back"]}>Ortga qaytish</button>
+              <button onClick={back} className={style["userPassword__content-back"]}>
+                Ortga qaytish
+              </button>
             </div>
 
-
             <form onSubmit={editPassword} className={style["userPassword__content-form"]}>
-
               <h1 className={style["userPassword__content-title"]}>
                 Passwordni almashtirish
                 <abbr className={style["userPassword__content-abbr"]} title={info}>
@@ -77,12 +73,8 @@ const UserPassword = () => {
               </h1>
 
               <div className={style["userPassword__content-row"]}>
-
                 <div className={style["userPassword__content-inputs"]}>
-                  <label
-                    htmlFor="password"
-                    className={style["userPassword__content-label"]}
-                  >
+                  <label htmlFor="password" className={style["userPassword__content-label"]}>
                     Yangi parol
                   </label>
 
@@ -97,10 +89,7 @@ const UserPassword = () => {
                 </div>
 
                 <div className={style["userPassword__content-inputs"]}>
-                  <label
-                    htmlFor="confirm"
-                    className={style["userPassword__content-label"]}
-                  >
+                  <label htmlFor="confirm" className={style["userPassword__content-label"]}>
                     Parolni takrorlang
                   </label>
 
@@ -113,7 +102,6 @@ const UserPassword = () => {
                     className={style["userPassword__content-input"]}
                   />
                 </div>
-
               </div>
 
               <div className={style["userPassword__content-buttons"]}>
@@ -121,8 +109,8 @@ const UserPassword = () => {
                   Saqlash
                 </button>
               </div>
-
             </form>
+            
           </div>
         </div>
       </div>

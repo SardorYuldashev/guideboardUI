@@ -21,11 +21,8 @@ const Login = () => {
     e.preventDefault();
 
     if (!values.username) return toast("Username kiritilmagan", { type: "error" });
-
     if (!values.password) return toast("Password kiritilmagan", { type: "error" });
-
     if (values.username.length < 3) return toast("Usename uzunligi 3 ta belgidan kam", { type: "error" });
-
     if (values.password.length < 4) return toast("Password uzunligi 4 ta belgidan kam", { type: "error" });
 
     try {
@@ -67,7 +64,6 @@ const Login = () => {
           <div className={style["login__content"]}>
 
             <form onSubmit={handleLogin} className={style["login__content-form"]}>
-
               <h1 className={style["login__content-title"]}>
                 Profilga kirish
                 <abbr className={style["login__content-abbr"]} title={info}>
@@ -76,7 +72,6 @@ const Login = () => {
               </h1>
 
               <div className={style["login__content-row"]}>
-
                 <div className={style["login__content-inputs"]}>
                   <label
                     htmlFor="username"
@@ -112,7 +107,6 @@ const Login = () => {
                     className={style["login__content-input"]}
                   />
                 </div>
-
               </div>
 
               <div className={style["login__content-buttons"]}>
@@ -120,8 +114,8 @@ const Login = () => {
                   Kirish
                 </button>
               </div>
-
             </form>
+            
           </div>
         </div>
       </div>

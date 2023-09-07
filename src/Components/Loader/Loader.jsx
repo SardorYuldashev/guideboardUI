@@ -6,7 +6,7 @@ const Loader = () => {
       <h2  className={style["loader-title"]}>Loading. <br /> Please waiting</h2>
       <div className={style["loader_spinner"]}></div>
     </div>
-  )
-}
+  );
+};
 
-export default Loader
+export default Loader;

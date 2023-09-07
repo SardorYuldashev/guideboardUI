@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
@@ -25,21 +25,13 @@ const UserAdd = () => {
     e.preventDefault();
 
     if (!values.first_name) return toast("Ism kiritilmagan", { type: "error" });
-
     if (!values.last_name) return toast("Familiya kiritilmagan", { type: "error" });
-
     if (!values.age) return toast("Yosh kiritilmagan", { type: "error" });
-
     if (!values.username) return toast("Username kiritilmagan", { type: "error" });
-
     if (!values.password) return toast("Password kiritilmagan", { type: "error" });
-
     if (values.first_name.length < 3) return toast("Ism uzunligi 3 ta belgidan kam", { type: "error" });
-
     if (values.last_name.length < 3) return toast("Familiya uzunligi 3 ta belgidan kam", { type: "error" });
-
     if (values.username.length < 3) return toast("Usename uzunligi 3 ta belgidan kam", { type: "error" });
-
     if (values.password.length < 4) return toast("Password uzunligi 4 ta belgidan kam", { type: "error" });
 
     try {
@@ -87,7 +79,6 @@ const UserAdd = () => {
             </div>
 
             <form onSubmit={handleRegister} className={style["userAdd__content-form"]}>
-
               <h1 className={style["userAdd__content-title"]}>
                 Ro'yxatdan o'tkazish <abbr className={style["userAdd__content-abbr"]} title={info}>
                   <i className="fa-solid fa-circle-info"></i>
@@ -95,13 +86,9 @@ const UserAdd = () => {
               </h1>
 
               <div className={style["userAdd__content-row"]}>
-
                 <div className={style["userAdd__content-fullName"]}>
                   <div className={style["userAdd__content-inputs"]}>
-                    <label
-                      htmlFor="first_name"
-                      className={style["userAdd__content-label"]}
-                    >
+                    <label htmlFor="first_name" className={style["userAdd__content-label"]}>
                       Ism
                     </label>
 
@@ -116,10 +103,7 @@ const UserAdd = () => {
                   </div>
 
                   <div className={style["userAdd__content-inputs"]}>
-                    <label
-                      htmlFor="last_name"
-                      className={style["userAdd__content-label"]}
-                    >
+                    <label htmlFor="last_name" className={style["userAdd__content-label"]}>
                       Familiya
                     </label>
 
@@ -134,12 +118,8 @@ const UserAdd = () => {
                   </div>
                 </div>
 
-
                 <div className={style["userAdd__content-inputs"]}>
-                  <label
-                    htmlFor="age"
-                    className={style["userAdd__content-label"]}
-                  >
+                  <label htmlFor="age" className={style["userAdd__content-label"]}>
                     Yosh
                   </label>
 
@@ -154,10 +134,7 @@ const UserAdd = () => {
                 </div>
 
                 <div className={style["userAdd__content-inputs"]}>
-                  <label
-                    htmlFor="username"
-                    className={style["userAdd__content-label"]}
-                  >
+                  <label htmlFor="username" className={style["userAdd__content-label"]}>
                     Username
                   </label>
 
@@ -172,10 +149,7 @@ const UserAdd = () => {
                 </div>
 
                 <div className={style["userAdd__content-inputs"]}>
-                  <label
-                    htmlFor="password"
-                    className={style["userAdd__content-label"]}
-                  >
+                  <label htmlFor="password" className={style["userAdd__content-label"]}>
                     Password
                   </label>
 
@@ -188,16 +162,11 @@ const UserAdd = () => {
                     className={style["userAdd__content-input"]}
                   />
                 </div>
-
               </div>
 
               <div className={style["userAdd__content-buttons"]}>
-
                 <div className={style["userAdd__content-checkbox"]}>
-                  <label
-                    htmlFor="role"
-                    className={style["userAdd__content-label"]}
-                  >
+                  <label htmlFor="role" className={style["userAdd__content-label"]}>
                     Admin
                   </label>
 
@@ -214,9 +183,7 @@ const UserAdd = () => {
                 <button type='submit' className={style["userAdd__content-btn"]} >
                   Ro'xatdan o'tkazish
                 </button>
-
               </div>
-
             </form>
           </div>
         </div>

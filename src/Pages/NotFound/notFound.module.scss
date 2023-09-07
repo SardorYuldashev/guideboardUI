@@ -9,7 +9,7 @@
 
     &-title {
       font-size: 50px;
-      color: red;
+      color: #302929;
     }
 
     &-backBtn {
@@ -25,10 +25,10 @@
       transition: .3s;
       font-weight: 600;
       background: #302929;
-      color: white;
+      color: #ffffff;
 
       &:hover {
-        background: #ff0000;
+        background: #5fb6f0;
       }
     }
   }

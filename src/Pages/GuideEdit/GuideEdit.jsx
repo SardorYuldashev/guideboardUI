@@ -25,8 +25,8 @@ const GuideEdit = () => {
     async function getGuide() {
       try {
         let { data } = await axios.get(`/guides/${id}`);
-
         setValues({ title: data.data.title, content: data.data.content, notify: false });
+
         setLoading(false);
       } catch (error) {
         toast(error.response.data.error, { type: "error" });
@@ -42,8 +42,8 @@ const GuideEdit = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    
     if (values.title.length < 3) return toast("Sarlavha uzunligi 3 ta belgidan kam", { type: "error" });
-
     if (values.content.length < 3) return toast("Qoida matni uzunligi 3 ta belgidan kam", { type: "error" });
 
     try {
@@ -88,7 +88,6 @@ const GuideEdit = () => {
             </div>
 
             <form onSubmit={handleSubmit} className={style["editGuide__content-form"]}>
-
               <h1 className={style["editGuide__content-title"]}>
                 Qoidani tahrirlash <abbr className={style["editGuide__content-abbr"]} title={info}>
                   <i className="fa-solid fa-circle-info"></i>
@@ -96,7 +95,6 @@ const GuideEdit = () => {
               </h1>
 
               <div className={style["editGuide__content-row"]}>
-
                 <div className={style["editGuide__content-inputs"]}>
                   <label
                     htmlFor="title"
@@ -135,11 +133,9 @@ const GuideEdit = () => {
 
                   </textarea>
                 </div>
-
               </div>
 
               <div className={style["editGuide__content-buttons"]}>
-
                 <div className={style["editGuide__content-checkbox"]}>
                   <label
                     htmlFor="notify"
@@ -162,7 +158,6 @@ const GuideEdit = () => {
                   Tahrirlash
                 </button>
               </div>
-
             </form>
 
           </div>

@@ -12,13 +12,17 @@ const NotFound = () => {
     <div className={style["notFound"]}>
       <div className="container">
         <div className={style["notFound__content"]}>
+
           <h1 className={style["notFound__content-title"]}>
             Bunday sahifa mavjud emas!
           </h1>
 
           <div className={style["notFound__content-backBtn"]}>
-            <button onClick={back} className={style["notFound__content-back"]}>Bosh sahifa</button>
+            <button onClick={back} className={style["notFound__content-back"]}>
+              Bosh sahifa
+            </button>
           </div>
+
         </div>
       </div>
     </div>

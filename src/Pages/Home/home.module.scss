@@ -29,7 +29,7 @@
       padding: 35px 0 15px;
       color: #ffffff;
       cursor: default;
-      border: 8px dotted white;
+      border: 8px dotted #ffffff;
       
       span {
         color: #ff0000;
@@ -57,10 +57,10 @@
       transition: .3s;
       font-weight: 600;
       background: #302929;
-      color: white;
+      color: #ffffff;
 
       &:hover {
-        background: #ff0000;
+        background: #5fb6f0;
       }
     }
 
@@ -70,6 +70,7 @@
       margin-bottom: 30px;
       margin-right: 50px;
       color: #ffffff;
+      cursor: default;
 
       p {
         font-size: 12px;

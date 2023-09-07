@@ -29,15 +29,16 @@ const TaskAdd = () => {
         let { data } = await axios.get(`/guides`);
 
         const newData = data.data.map((item) => {
-          let arr = { id: item.id }
+          let arr = { id: item.id };
+
           if (item.title.length < 96) {
-            arr.title = item.title
+            arr.title = item.title;
           } else {
-            arr.title = `${(item.title.slice(0, 75))}...`
-          }
+            arr.title = `${(item.title.slice(0, 75))}...`;
+          };
+
           return arr;
         });
-
         setGuides(newData);
 
         let users = await axios.get(`/users`);
@@ -109,42 +110,34 @@ const TaskAdd = () => {
           <div className={style["taskAdd__content"]}>
 
             <div className={style["taskAdd__content-backBtn"]}>
-              <button onClick={back} className={style["taskAdd__content-btn"]}>Ortga qaytish</button>
+              <button onClick={back} className={style["taskAdd__content-btn"]}>
+                Ortga qaytish
+              </button>
             </div>
 
             <form onSubmit={handleSubmit} className={style["taskAdd__content-form"]}>
-
               <h1 className={style["taskAdd__content-title"]}>
                 Vazifa yaratish
               </h1>
 
               <div className={style["taskAdd__content-row"]}>
-
                 <div className={style["taskAdd__content-inputs"]}>
                   <p className={style["taskAdd__content-subtitle"]}>
                     Qoida
                   </p>
 
-                  <select
-                    name="guide_id"
-                    onChange={handleSelectInput}
-                    className={style["taskAdd__content-select"]}
-                  >
-
-                    <option value="" className={style["taskAdd__content-option"]} >Qoidani tanlang</option>
+                  <select name="guide_id" onChange={handleSelectInput} className={style["taskAdd__content-select"]}>
+                    <option value="" className={style["taskAdd__content-option"]}>
+                      Qoidani tanlang
+                    </option>
 
                     {
                       guides.map(item => (
-                        <option
-                          key={item.id}
-                          value={item.id}
-                          className={style["taskAdd__content-option"]}
-                        >
+                        <option key={item.id} value={item.id} className={style["taskAdd__content-option"]}>
                           {item.title}
                         </option>
                       ))
                     }
-
                   </select>
                 </div>
 
@@ -154,13 +147,9 @@ const TaskAdd = () => {
                   </p>
 
                   <ul className={style["taskAdd__content-list"]}>
-
                     {
                       users.map(user => (
-                        <li
-                          className={style["taskAdd__content-li"]}
-                          key={user.id}
-                        >
+                        <li className={style["taskAdd__content-li"]} key={user.id}>
                           <input
                             className={style["taskAdd__content-check"]}
                             onChange={handleIputChange}
@@ -169,22 +158,18 @@ const TaskAdd = () => {
                             id={user.id}
                             value={user.id} />
 
-                          <label
-                            className={style["taskAdd__content-user"]}
-                            htmlFor={user.id}
-                          >
+                          <label className={style["taskAdd__content-user"]} htmlFor={user.id}>
                             <p className={style["taskAdd__content-fullName"]}>
                               {user.first_name} {user.last_name}
                             </p>
+
                             {user.role === "admin" ? <span>ADMIN</span> : <span></span>}
                           </label>
                         </li>
                       ))
                     }
-
                   </ul>
                 </div>
-
               </div>
 
               <div className={style["taskAdd__content-buttons"]}>
@@ -192,7 +177,6 @@ const TaskAdd = () => {
                   Yaratish
                 </button>
               </div>
-
             </form>
 
           </div>

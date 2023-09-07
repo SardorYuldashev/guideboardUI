@@ -1,5 +1,5 @@
-import { Routes, Route } from 'react-router-dom'
-import Home from './Pages/Home/Home';
+import { Routes, Route } from 'react-router-dom';
+import Home from './Pages/Home';
 import Layout from './Pages/Layout';
 import Login from './Pages/Login';
 import Dashboard from './Pages/Dashboard';
@@ -21,7 +21,6 @@ import TasksAll from './Pages/TasksAll';
 import NotFound from './Pages/NotFound';
 
 function App() {
-
   return (
     <div>
       <Routes>

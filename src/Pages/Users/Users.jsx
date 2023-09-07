@@ -4,18 +4,16 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Loader from '../../Components/Loader';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { loadURL, loadLimit, loadOffset, loadSearch, loadSortBy, loadSortOrder, loadRole } from '../../Store/slices/users';
 
 const Users = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const role = localStorage.getItem("role");
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
-
-  const dispatch = useDispatch();
   const { URL, limit, offset, search, sortBy, sortOrder, userRole } = useSelector(({ users }) => users);
   const [pageArr, setPageArr] = useState(null);
 
@@ -32,8 +30,7 @@ const Users = () => {
         setUsers(data);
 
         const pageList = [];
-        const totalPages = Math.ceil(data.pageInfo.total / limit)
-        for (let i = 0; i < totalPages; i++) {
+        for (let i = 0; i < Math.ceil(data.pageInfo.total / limit); i++) {
           pageList.push(i);
         };
         setPageArr(pageList);
@@ -89,7 +86,6 @@ const Users = () => {
     e.preventDefault();
 
     if (search === "") {
-
       if (userRole === "all") {
         dispatch(loadURL(`/users?sort[by]=${sortBy}&sort[order]=${sortOrder}&page[limit]=${limit}&page[offset]=${offset}`));
         setLoading(true);
@@ -143,7 +139,6 @@ const Users = () => {
           <div className={style["users__content"]}>
 
             <div className={style["users__content-top"]}>
-
               <h1 className={style["users__content-text"]}>
                 Foydalanuvchilar
               </h1>
@@ -151,12 +146,9 @@ const Users = () => {
               <Link to="/users/add" className={style["users__content-add"]}>
                 Foydalanuvchi qo'shish
               </Link>
-
-
             </div>
 
             <div className={style["users__content-tools"]}>
-
               <form onSubmit={handleSearch} className={style["users__content-search"]}>
                 <input
                   type="text"
@@ -173,7 +165,6 @@ const Users = () => {
               </form>
 
               <form onSubmit={handleSubmit} className={style["users__content-sort"]}>
-
                 <select onChange={handleForm} defaultValue={userRole} name="role" id="role">
                   <option value="all">Barcha</option>
                   <option value="admin">Admin</option>
@@ -196,10 +187,10 @@ const Users = () => {
                   <option value={50}>50</option>
                 </select>
 
-                <button type="submit">OK</button>
-
+                <button type="submit">
+                  OK
+                </button>
               </form>
-
             </div>
 
             <p className={style["users__content-pageInfo"]}>
@@ -207,7 +198,6 @@ const Users = () => {
             </p>
 
             <ul className={style["users__content-table"]}>
-
               <li className={style["users__content-element"]}>
                 <h2 className={style["users__content-item"]}>
                   ID
@@ -282,7 +272,6 @@ const Users = () => {
                   </li>
                 ))
               }
-
             </ul>
 
             <form onSubmit={handleSubmit} className={style["users__content-pageList"]}>

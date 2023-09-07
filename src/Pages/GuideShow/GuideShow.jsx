@@ -16,8 +16,8 @@ const GuideShow = () => {
     async function showGuide() {
       try {
         let { data } = await axios.get(`/guides/${id}`);
-
         setGuide(data.data);
+
         setLoading(false);
       } catch (error) {
         toast(error.response.data.error, { type: "error" });
@@ -33,7 +33,6 @@ const GuideShow = () => {
 
   async function deleteGuide() {
     let question = confirm("Rostdan ham qoidani o'chirmoqchimisiz?");
-
     if (!question) {
       return;
     };
@@ -82,7 +81,6 @@ const GuideShow = () => {
                   </div>
                   : <div></div>
               }
-
             </div>
 
             <p className={style["guideShow__content-revisons"]}>
@@ -99,10 +97,11 @@ const GuideShow = () => {
             <p className={style["guideShow__content-text"]}>
               {guide.content}
             </p>
+
           </div>
         </div>
       </div>
-  )
-}
+  );
+};
 
-export default GuideShow
+export default GuideShow;

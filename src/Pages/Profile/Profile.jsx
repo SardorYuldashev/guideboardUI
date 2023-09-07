@@ -16,9 +16,10 @@ const Profile = () => {
       try {
         let { data } = await axios.get("/users/me");
         setUser(data.data);
-        setLoading(false)
+
+        setLoading(false);
       } catch (error) {
-        toast(error.response.data.error, { type: "error" });        
+        toast(error.response.data.error, { type: "error" });
       };
     };
     getUser();
@@ -38,7 +39,6 @@ const Profile = () => {
             </div>
 
             <div className={style["profile__content-row"]}>
-
               <div className={style["profile__content-imgBox"]}>
                 <img
                   src={user.role === "admin" ? admin_avatar : user_avatar}
@@ -48,7 +48,6 @@ const Profile = () => {
               </div>
 
               <div className={style["profile__content-info"]}>
-
                 <h2 className={style["profile__content-userInfo"]}>
                   Ism: <span>{user.first_name}</span>
                 </h2>
@@ -68,11 +67,9 @@ const Profile = () => {
                 <h2 className={style["profile__content-userInfo"]}>
                   Lavozim: <span>{user.role === "admin" ? "Administrator" : "Ishchi"}</span>
                 </h2>
-
               </div>
 
               <div className={style["profile__content-info"]}>
-
                 <h2 className={style["profile__content-userInfo"]}>
                   Vazifalar soni: <span>{user.total_guides}</span>
                 </h2>
@@ -88,7 +85,6 @@ const Profile = () => {
                 <Link to={`/users/edit/me`} className={style["profile__content-btn"]}>
                   Tahrirlash
                 </Link>
-
               </div>
 
             </div>

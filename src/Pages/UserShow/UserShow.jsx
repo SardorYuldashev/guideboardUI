@@ -25,9 +25,9 @@ const UserShow = () => {
     async function getUser() {
       try {
         let { data } = await axios.get(`/users/${id}`);
-
         setUser(data.data);
-        setLoading(false)
+
+        setLoading(false);
       } catch (error) {
         toast(error.response.data.error, { type: "error" });
         navigate("/users");
@@ -38,7 +38,6 @@ const UserShow = () => {
 
   async function deleteUser() {
     let question = confirm("Rostdan ham foydalanuvchini o'chirmoqchimisiz?");
-
     if (!question) {
       return;
     };
@@ -57,6 +56,11 @@ const UserShow = () => {
   };
 
   async function appointAdmin() {
+    let question = confirm("Rostdan ham foydalanuvchini lavozimini o'zgartirmoqchimiz?");
+    if (!question) {
+      return;
+    };
+
     let value = {};
 
     if (user.role === "admin") {
@@ -86,13 +90,11 @@ const UserShow = () => {
         <div className="container">
           <div className={style["userShow__content"]}>
 
-
-
             <div className={style["userShow__content-row"]}>
-
               <div className={style["userShow__content-buttons"]}>
-
-                <button onClick={back} className={style["userShow__content-btn"]}>Ortga qaytish</button>
+                <button onClick={back} className={style["userShow__content-btn"]}>
+                  Ortga qaytish
+                </button>
 
                 <Link to={`/users/edit/${user.id}`} className={style["userShow__content-btn"]}>
                   Tahrirlash
@@ -112,7 +114,6 @@ const UserShow = () => {
               </div>
 
               <div className={style["userShow__content-info"]}>
-
                 <h2 className={style["userShow__content-userInfo"]}>
                   Ism: <span>{user.first_name}</span>
                 </h2>
@@ -153,10 +154,8 @@ const UserShow = () => {
                   alt="avatar"
                 />
               </div>
-
-
-
             </div>
+            
           </div>
         </div>
       </div>

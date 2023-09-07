@@ -1,6 +1,6 @@
 import axios from 'axios';
 import style from './taskShow.module.scss';
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Loader from '../../Components/Loader';
@@ -21,8 +21,8 @@ const TaskShow = () => {
     async function getTask() {
       try {
         let { data } = await axios.get(`/user-guides/${id}`);
-
         setTask(data.data);
+
         setLoading(false);
       } catch (error) {
         toast(error.response.data.error, { type: "error" });
@@ -42,11 +42,6 @@ const TaskShow = () => {
       setLoading(true);
       let { data } = await axios.post(`/user-guides/${id}/read`, { completed: true });
 
-      if (!data) {
-        toast("Serverda xatolik", { type: "error" });
-        navigate(-1);
-        return;
-      };
       toast("Tasdiqlandi", { type: "success" });
       dispatch(loadRefreshData(true));
       setLoading(false);
@@ -64,7 +59,6 @@ const TaskShow = () => {
           <div className={style["taskShow__content"]}>
 
             <div className={style["taskShow__content-buttons"]}>
-
               <button onClick={back} className={style["taskShow__content-btn"]}>
                 Ortga qaytish
               </button>
@@ -72,7 +66,6 @@ const TaskShow = () => {
               {
                 task.completed
                   ? <div className={style["taskShow__content-imgWrapper"]}>
-
                     <p className={style["taskShow__content-imgText"]}>
                       Siz qoida bilan <br /> tanishib chiqgansiz
                     </p>
@@ -82,7 +75,6 @@ const TaskShow = () => {
                       src={green_mark}
                       alt="mark"
                     />
-
                   </div>
                   : <div className={style["taskShow__content-imgWrapper"]}>
                     <p className={style["taskShow__content-imgText"]}>
@@ -94,14 +86,11 @@ const TaskShow = () => {
                       src={red_mark}
                       alt="mark"
                     />
-
                   </div>
               }
-
             </div>
 
             <div className={style["taskShow__content-body"]}>
-
               <div className={style["taskShow__content-head"]}>
                 <h2 className={style["taskShow__content-title"]}>
                   {task?.guide?.title}
@@ -118,12 +107,7 @@ const TaskShow = () => {
               <p className={style["taskShow__content-content"]}>
                 {task?.guide?.content}
               </p>
-
             </div>
-
-
-
-
 
           </div>
         </div>

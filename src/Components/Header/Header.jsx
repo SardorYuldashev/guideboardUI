@@ -5,7 +5,6 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadRefreshData } from '../../Store/slices/refresh';
-
 import {
   loadURL as loadURL_my,
   loadLimit as loadLimit_my,
@@ -18,7 +17,6 @@ import {
   loadOffset as loadOffset_all,
   loadFilters as loadFilters_all
 } from '../../Store/slices/taskAll';
-
 import {
   loadURL as loadURL_guides,
   loadLimit as loadLimit_guides,
@@ -26,7 +24,6 @@ import {
   loadSearch as loadSearch_guides,
   loadSort as loadSort_guides
 } from '../../Store/slices/guides';
-
 import {
   loadURL as loadURL_users,
   loadLimit as loadLimit_users,
@@ -42,7 +39,6 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [newTask, setNewTask] = useState(0);
-
   const { reRender } = useSelector(({ refresh }) => refresh);
 
   useEffect(() => {
@@ -50,7 +46,7 @@ const Header = () => {
       try {
         const { data } = await axios.get("/users/me");
         setNewTask(data.data.todo_guides);
-
+        
         dispatch(loadRefreshData(false));
       } catch (error) {
         toast(error.response.data.error, { type: "error" });

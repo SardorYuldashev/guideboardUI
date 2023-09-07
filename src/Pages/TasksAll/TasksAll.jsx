@@ -17,7 +17,6 @@ const TasksAll = () => {
   const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(true);
   const [task, setTask] = useState([]);
-
   const { URL, limit, offset, filters } = useSelector(({ taskAll }) => taskAll);
   const [pageArr, setPageArr] = useState(null);
 
@@ -33,10 +32,8 @@ const TasksAll = () => {
         let { data } = await axios.get(`${URL}`);
         setTask(data);
 
-        // Pagenatsiya uchun arr yasash
         const pageList = [];
-        const totalPages = Math.ceil(data.pageInfo.total / limit)
-        for (let i = 0; i < totalPages; i++) {
+        for (let i = 0; i < Math.ceil(data.pageInfo.total / limit); i++) {
           pageList.push(i);
         };
         setPageArr(pageList);
@@ -48,12 +45,10 @@ const TasksAll = () => {
       };
     };
     getGuides();
-
   }, [refresh]);
 
   async function deleteTask(id) {
     let question = confirm("Rostdan ham vazifani o'chirmoqchimisiz?");
-
     if (!question) {
       return;
     };
@@ -116,9 +111,7 @@ const TasksAll = () => {
             </div>
 
             <div className={style["tasksAll__content-tools"]}>
-
               <form onSubmit={handleSubmit} className={style["tasksAll__content-filter"]}>
-
                 <select onChange={handleForm} defaultValue={filters.completed} name="sort" id="sort">
                   <option value="all">Barchasi</option>
                   <option value={false}>Ko'rilmaganlar</option>
@@ -132,11 +125,7 @@ const TasksAll = () => {
                 </select>
 
                 <button type="submit">OK</button>
-
               </form>
-
-
-
             </div>
 
             <p className={style["tasksAll__content-pageInfo"]}>
@@ -144,7 +133,6 @@ const TasksAll = () => {
             </p>
 
             <ul className={style["tasksAll__content-table"]}>
-
               <li className={style["tasksAll__content-element"]}>
                 <h2 className={style["tasksAll__content-item"]}>
                   ID
@@ -203,7 +191,6 @@ const TasksAll = () => {
                     </div>
 
                     <div className={style["tasksAll__content-info"]}>
-
                       <div className={style["tasksAll__content-imgBox"]}>
                         {item.completed
                           ? <img
@@ -214,9 +201,7 @@ const TasksAll = () => {
                             className={style["tasksAll__content-img"]}
                             src={red_mark}
                             alt="mark" />}
-
                       </div>
-
                     </div>
 
                     <p className={style["tasksAll__content-buttons"]}>
@@ -227,8 +212,7 @@ const TasksAll = () => {
                   </li>
                 ))
               }
-
-            </ul>            
+            </ul>
 
             <form onSubmit={handleSubmit} className={style["tasksAll__content-pageList"]}>
               {
@@ -245,6 +229,7 @@ const TasksAll = () => {
                 ))
               }
             </form>
+            
           </div>
         </div>
       </div>

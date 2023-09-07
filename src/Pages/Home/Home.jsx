@@ -20,8 +20,8 @@ const Home = () => {
       : <div className={style["home"]}>
         <div className="container">
           <div className={style["home__content"]}>
-            <div className={style["home__content-main"]}>
 
+            <div className={style["home__content-main"]}>
               <h1 className={style["home__content-title"]}>
                 <span>Guide</span> Board
               </h1>
@@ -37,13 +37,12 @@ const Home = () => {
                   * Agar profilingiz mavjud bo'lmasa, <br /> administratsiyaga murojat qiling.
                 </p>
               </div>
-
-
             </div>
+
           </div>
         </div>
       </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

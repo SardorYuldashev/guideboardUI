@@ -1,21 +1,19 @@
 import { Link } from 'react-router-dom';
-import style from './tasksMy.module.scss'
+import style from './tasksMy.module.scss';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import green_mark from '../../assets/images/green_mark.webp';
 import red_mark from '../../assets/images/red_mark.webp';
 import Loader from './../../Components/Loader';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { loadURL, loadLimit, loadOffset, loadFilters } from '../../Store/slices/taskMy';
 
 const TasksMy = () => {
+  const dispatch = useDispatch();
   const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(true);
   const [tasks, setTasks] = useState([]);
-
-  const dispatch = useDispatch();
   const { URL, limit, offset, filters } = useSelector(({ taskMy }) => taskMy);
   const [pageArr, setPageArr] = useState(null);
 
@@ -23,13 +21,10 @@ const TasksMy = () => {
     async function getGuides() {
       try {
         let { data } = await axios.get(`${URL}`);
-
         setTasks(data);
 
-        // Pagenatsiya uchun arr yasash
         const pageList = [];
-        const totalPages = Math.ceil(data.pageInfo.total / limit)
-        for (let i = 0; i < totalPages; i++) {
+        for (let i = 0; i < Math.ceil(data.pageInfo.total / limit); i++) {
           pageList.push(i);
         };
         setPageArr(pageList);
@@ -84,9 +79,7 @@ const TasksMy = () => {
             </div>
 
             <div className={style["tasksMy__content-tools"]}>
-
               <form onSubmit={handleSubmit} className={style["tasksMy__content-filter"]}>
-
                 <select onChange={handleForm} value={filters.completed} name="sort" id="sort">
                   <option value={false}>Ko'rilmaganlar</option>
                   <option value={true}>Ko'rilganlar</option>
@@ -99,9 +92,7 @@ const TasksMy = () => {
                 </select>
 
                 <button type="submit">OK</button>
-
               </form>
-
             </div>
 
             <p className={style["tasksMy__content-pageInfo"]}>
@@ -116,11 +107,9 @@ const TasksMy = () => {
                   <ul className={style["tasksMy__content-list"]}>
                     {
                       tasks.data?.map(item => (
-
                         <li key={item.id} className={style["tasksMy__content-li"]}>
                           <Link to={`/tasks/${item.id}`} className={style["tasksMy__content-link"]}>
                             <div className={style["tasksMy__content-info"]}>
-
                               <div className={style["tasksMy__content-titleBox"]}>
                                 <h2 className={style["tasksMy__content-title"]}>
                                   {item.guide.title}
@@ -139,14 +128,11 @@ const TasksMy = () => {
                                   : <img src={red_mark} alt="mark" className={style["tasksMy__content-img"]} />
                                 }
                               </div>
-
                             </div>
                           </Link>
                         </li>
-
                       ))
                     }
-
                   </ul>
               }
             </div>            
