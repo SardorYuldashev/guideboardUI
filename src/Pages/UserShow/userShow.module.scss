@@ -23,11 +23,11 @@
       transition: .3s;
       font-weight: 600;
       background: #302929;
-      color: white;
+      color: #ffffff;
       text-align: center;
 
       &:hover {
-        background: #615ef3;
+        background: #5fb6f0;
       }
 
       &:first-child {
@@ -39,7 +39,7 @@
         background: #ff0000;
 
         &:hover {
-          background: #615ef3;
+          background: #5fb6f0;
         }
       }
     }
@@ -64,13 +64,13 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      border-bottom: 3px dotted blue;
+      border-bottom: 3px dotted #302929;
       padding: 5px 10px;
 
       span {
         margin-left: 10px;
         font-size: 30px;
-        color: red;
+        color: #ff0000;
       }
     }
 

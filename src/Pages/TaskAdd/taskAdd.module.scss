@@ -24,6 +24,7 @@
       padding: 15px 0;
       background: #302929;
       color: #ffffff;
+      cursor: default;
     }
 
     &-row {
@@ -40,6 +41,7 @@
     &-subtitle {
       color: #ffffff9d;
       font-size: 20px;
+      cursor: default;
     }
 
     &-select {
@@ -48,6 +50,7 @@
       padding: 5px 0;
       color: #ffffff;
       border-bottom: 2px solid #ffffff;
+      cursor: pointer;
     }
 
     &-option {
@@ -68,6 +71,10 @@
       margin-top: 10px;
       display: flex;
       gap: 15px;
+
+      input {
+        cursor: pointer;
+      }
     }
 
     &-user {
@@ -86,7 +93,6 @@
       }
     }
 
-
     &-buttons {
       padding-right: 30px;
       padding-bottom: 20px;
@@ -104,10 +110,10 @@
       transition: .3s;
       font-weight: 600;
       background: #302929;
-      color: white;
+      color: #ffffff;
 
       &:hover {
-        background: #ff0000;
+        background: #5fb6f0;
       }
     }
   }

@@ -5,24 +5,19 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Loader from '../../Components/Loader';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { loadURL, loadLimit, loadOffset, loadSearch, loadSortBy, loadSortOrder, loadRole } from '../../Store/slices/users';
+
 const Users = () => {
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
-  const [search, setSearch] = useState('');
-  const [URL, setURL] = useState('/users');
-  const [sort, setSort] = useState({ by: "id", order: "asc" });
-  const [filter, setFilter] = useState("");
 
-  const optionsFilter = [
-    { value: "", text: 'Hamma' },
-    { value: 'admin', text: 'Admin' },
-    { value: 'employee', text: 'Employee' }
-  ];
-
-  const [selected, setSelected] = useState(optionsFilter[0].value);
+  const dispatch = useDispatch();
+  const { URL, limit, offset, search, sortBy, sortOrder, userRole } = useSelector(({ users }) => users);
+  const [pageArr, setPageArr] = useState(null);
 
   useEffect(() => {
     if (role !== "admin") {
@@ -35,11 +30,15 @@ const Users = () => {
       try {
         let { data } = await axios.get(`${URL}`);
         setUsers(data);
+
+        const pageList = [];
+        const totalPages = Math.ceil(data.pageInfo.total / limit)
+        for (let i = 0; i < totalPages; i++) {
+          pageList.push(i);
+        };
+        setPageArr(pageList);
+
         setLoading(false);
-        setURL('/users');
-        setSort({ by: "id", order: "asc" });
-        setSelected(optionsFilter[0].value);
-        setFilter("");
       } catch (error) {
         toast(error.response.data.error, { type: "error" });
         navigate("/");
@@ -49,63 +48,71 @@ const Users = () => {
   }, [refresh]);
 
   function handleQuery(e) {
-    setSearch(e.target.value);
+    dispatch(loadSearch(e.target.value));
   };
 
   function handleSearch(e) {
     e.preventDefault();
+    dispatch(loadSortBy("id"));
+    dispatch(loadSortOrder("asc"));
+    dispatch(loadOffset(0));
+
     if (search === "") {
-      setURL('/users');
+      dispatch(loadURL(`/users?page[limit]=${limit}&page[offset]=0`));
       setRefresh(!refresh);
       return;
     };
-    setURL(`${URL}?q=${search}`);
-    setFilter(null);
+
+    dispatch(loadURL(`/users?q=${search}&page[limit]=${limit}&page[offset]=0`));
     setRefresh(!refresh);
   };
 
-  function handleSelect(e) {
-    setSort((ov) => ({ ...ov, [e.target.name]: e.target.value }));
-  };
-
-  function handleFilter(e) {
-    if (e.target.value === "admin") {
-      setFilter("admin");
-    } else if (e.target.value === "employee") {
-      setFilter("employee");
-    } else if (e.target.value === "") {
-      setFilter("");
+  function handleForm(e) {
+    if (e.target.name === "by") {
+      dispatch(loadSortBy(e.target.value));
+      dispatch(loadOffset(0));
+    } else if (e.target.name === "order") {
+      dispatch(loadSortOrder(e.target.value));
+      dispatch(loadOffset(0));
+    } else if (e.target.name === "limit") {
+      dispatch(loadLimit(Number(e.target.value)));
+      dispatch(loadOffset(0));
+    } else if (e.target.name === "role") {
+      dispatch(loadRole(e.target.value));
+      dispatch(loadOffset(0));
+    } else if (e.target.name === "offset") {
+      dispatch(loadOffset(e.target.value * limit));
     };
-
-    setSelected(e.target.value);
   };
 
-  function handleSort(e) {
+  function handleSubmit(e) {
     e.preventDefault();
 
-    if (search === "" && filter === "") {
-      setURL(`${URL}?sort[by]=${sort.by}&sort[order]=${sort.order}`);
-      setRefresh(!refresh);
-      return
+    if (search === "") {
+
+      if (userRole === "all") {
+        dispatch(loadURL(`/users?sort[by]=${sortBy}&sort[order]=${sortOrder}&page[limit]=${limit}&page[offset]=${offset}`));
+        setLoading(true);
+        setRefresh(!refresh);;
+        return;
+      };
+
+      dispatch(loadURL(`/users?filters[role]=${userRole}&sort[by]=${sortBy}&sort[order]=${sortOrder}&page[limit]=${limit}&page[offset]=${offset}`));
+      setLoading(true);
+      setRefresh(!refresh);;
+      return;
     };
 
-    if (search === "" && filter !== "") {
-      setURL(`${URL}?filters[role]=${filter}&sort[by]=${sort.by}&sort[order]=${sort.order}`);
+    if (userRole !== "all") {
+      dispatch(loadURL(`/users?q=${search}&filters[role]=${userRole}&sort[by]=${sortBy}&sort[order]=${sortOrder}&page[limit]=${limit}&page[offset]=${offset}`));
+      setLoading(true);
       setRefresh(!refresh);
-      return
+      return;
     };
 
-    if (search !== "" && filter === "") {
-      setURL(`${URL}?q=${search}&sort[by]=${sort.by}&sort[order]=${sort.order}`);
-      setRefresh(!refresh);
-      return
-    };
-
-    if (search !== "" && filter !== "") {
-      setURL(`${URL}?q=${search}&filters[role]=${filter}&sort[by]=${sort.by}&sort[order]=${sort.order}`);
-      setRefresh(!refresh);
-      return
-    };
+    dispatch(loadURL(`/users?q=${search}&sort[by]=${sortBy}&sort[order]=${sortOrder}&page[limit]=${limit}&page[offset]=${offset}`));
+    setLoading(true);
+    setRefresh(!refresh);
   };
 
   async function deleteUser(id) {
@@ -165,31 +172,39 @@ const Users = () => {
                 </button>
               </form>
 
-              <form onSubmit={handleSort} className={style["users__content-sort"]}>
+              <form onSubmit={handleSubmit} className={style["users__content-sort"]}>
 
-                <select value={selected} onChange={handleFilter}>
-                  {optionsFilter.map(option => (
-                    <option key={option.value} value={option.value}>
-                      {option.text}
-                    </option>
-                  ))}
+                <select onChange={handleForm} defaultValue={userRole} name="role" id="role">
+                  <option value="all">Barcha</option>
+                  <option value="admin">Admin</option>
+                  <option value="employee">Employee</option>
                 </select>
 
-                <select onChange={handleSelect} name="by" id="by">
+                <select onChange={handleForm} defaultValue={sortBy} name="by" id="by">
                   <option value="id">ID</option>
                   <option value="age">Age</option>
                 </select>
 
-                <select onChange={handleSelect} name="order" id="order">
+                <select onChange={handleForm} defaultValue={sortOrder} name="order" id="order">
                   <option value="asc">O'sish</option>
                   <option value="desc">Kamayish</option>
                 </select>
 
-                <button type="submit">Send</button>
+                <select onChange={handleForm} defaultValue={limit} name="limit" id="limit">
+                  <option value={10}>10</option>
+                  <option value={25}>25</option>
+                  <option value={50}>50</option>
+                </select>
+
+                <button type="submit">OK</button>
 
               </form>
 
             </div>
+
+            <p className={style["users__content-pageInfo"]}>
+              Foydalanuvchilar ( Jami: <span>{users.pageInfo.total}</span> | Sahifada: <span>{users.data.length}</span> )
+            </p>
 
             <ul className={style["users__content-table"]}>
 
@@ -269,6 +284,22 @@ const Users = () => {
               }
 
             </ul>
+
+            <form onSubmit={handleSubmit} className={style["users__content-pageList"]}>
+              {
+                pageArr.map(item => (
+                  <button
+                    type='submit'
+                    key={item}
+                    value={item}
+                    name='offset'
+                    onClick={handleForm}
+                    className={style["users__content-page"]}>
+                    {item + 1}
+                  </button>
+                ))
+              }
+            </form>
 
           </div>
         </div>

@@ -6,6 +6,9 @@ import axios from 'axios';
 import Loader from '../../Components/Loader';
 import pin from '../../assets/images/pin.webp';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { loadURL, loadLimit, loadOffset, loadSearch, loadSort } from '../../Store/slices/guides';
+
 const Dashboard = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -13,9 +16,10 @@ const Dashboard = () => {
   const [guides, setGuides] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
-  const [search, setSearch] = useState('');
-  const [URL, setURL] = useState('/guides');
-  const [sort, setSort] = useState({ by: "id", order: "asc" });
+
+  const dispatch = useDispatch();
+  const { URL, limit, offset, search, sort } = useSelector(({ guides }) => guides);
+  const [pageArr, setPageArr] = useState(null);
 
   useEffect(() => {
     if (!token) {
@@ -27,9 +31,15 @@ const Dashboard = () => {
       try {
         let { data } = await axios.get(`${URL}`);
         setGuides(data);
+
+        const pageList = [];
+        const totalPages = Math.ceil(data.pageInfo.total / limit)
+        for (let i = 0; i < totalPages; i++) {
+          pageList.push(i);
+        };
+        setPageArr(pageList);
+
         setLoading(false);
-        setURL('/guides');
-        setSort({ by: "id", order: "asc" })
       } catch (error) {
         toast(error.response.data.error, { type: "error" });
       };
@@ -38,32 +48,47 @@ const Dashboard = () => {
   }, [refresh]);
 
   function handleQuery(e) {
-    setSearch(e.target.value);
+    dispatch(loadSearch(e.target.value));
   };
 
   function handleSearch(e) {
     e.preventDefault();
+    dispatch(loadSort("asc"));
+    dispatch(loadOffset(0));
+
     if (search === "") {
-      setURL('/guides');
+      dispatch(loadURL(`/guides?page[limit]=${limit}&page[offset]=0`));
       setRefresh(!refresh);
       return;
     };
-    setURL(`${URL}?q=${search}`);
+
+    dispatch(loadURL(`/guides?q=${search}&page[limit]=${limit}&page[offset]=0`));
     setRefresh(!refresh);
   };
 
-  function handleSelect(e) {
-    setSort((ov) => ({ ...ov, [e.target.name]: e.target.value }));
+  function handleForm(e) {
+    if (e.target.name === "order") {
+      dispatch(loadSort(e.target.value));
+      dispatch(loadOffset(0));
+    } else if (e.target.name === "limit") {
+      dispatch(loadLimit(Number(e.target.value)));
+      dispatch(loadOffset(0));
+    } else if (e.target.name === "offset") {
+      dispatch(loadOffset(e.target.value * limit));
+    };
   };
 
-  function handleSort(e) {
+  function handleSubmit(e) {
     e.preventDefault();
+
     if (search === "") {
-      setURL(`${URL}?sort[by]=${sort.by}&sort[order]=${sort.order}`);
-      setRefresh(!refresh);
-      return
-    }
-    setURL(`${URL}?q=${search}&sort[by]=${sort.by}&sort[order]=${sort.order}`);
+      dispatch(loadURL(`/guides?sort[by]=id&sort[order]=${sort.order}&page[limit]=${limit}&page[offset]=${offset}`));
+      setLoading(true);
+      setRefresh(!refresh);;
+      return;
+    };
+    dispatch(loadURL(`/guides?q=${search}&sort[by]=id&sort[order]=${sort.order}&page[limit]=${limit}&page[offset]=${offset}`));
+    setLoading(true);
     setRefresh(!refresh);
   };
 
@@ -108,17 +133,26 @@ const Dashboard = () => {
                 </button>
               </form>
 
-              <form onSubmit={handleSort} className={style["dashboard__content-sort"]}>
-
-                <select onChange={handleSelect} name="order" id="order">
+              <form onSubmit={handleSubmit} className={style["dashboard__content-sort"]}>
+                <select onChange={handleForm} defaultValue={sort.order} name="order" id="order">
                   <option value="asc">O'sish</option>
                   <option value="desc">Kamayish</option>
                 </select>
 
-                <button type="submit">Send</button>
+                <select onChange={handleForm} defaultValue={limit} name="limit" id="limit">
+                  <option value={10}>10</option>
+                  <option value={25}>25</option>
+                  <option value={50}>50</option>
+                </select>
+
+                <button type="submit">OK</button>
               </form>
 
             </div>
+
+            <p className={style["dashboard__content-pageInfo"]}>
+              Qoidalar ( Jami: <span>{guides.pageInfo.total}</span> | Sahifada: <span>{guides.data.length}</span> )
+            </p>
 
             <ul className={style["dashboard__content-list"]}>
               {
@@ -151,10 +185,26 @@ const Dashboard = () => {
               }
 
             </ul>
+
+            <form onSubmit={handleSubmit} className={style["dashboard__content-pageList"]}>
+              {
+                pageArr.map(item => (
+                  <button
+                    type='submit'
+                    key={item}
+                    value={item}
+                    name='offset'
+                    onClick={handleForm}
+                    className={style["dashboard__content-page"]}>
+                    {item + 1}
+                  </button>
+                ))
+              }
+            </form>
           </div>
         </div>
       </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

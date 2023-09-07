@@ -6,8 +6,9 @@ import axios from 'axios';
 import green_mark from '../../assets/images/green_mark.webp';
 import red_mark from '../../assets/images/red_mark.webp';
 import Loader from './../../Components/Loader';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loadRefreshData } from '../../Store/slices/refresh';
+import { loadURL, loadLimit, loadOffset, loadFilters } from '../../Store/slices/taskAll';
 
 const TasksAll = () => {
   const navigate = useNavigate();
@@ -16,8 +17,9 @@ const TasksAll = () => {
   const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(true);
   const [task, setTask] = useState([]);
-  const [URL, setURL] = useState("/user-guides/all");
-  const [filter, setFilter] = useState({ completed: "all" });
+
+  const { URL, limit, offset, filters } = useSelector(({ taskAll }) => taskAll);
+  const [pageArr, setPageArr] = useState(null);
 
   useEffect(() => {
     if (role !== "admin") {
@@ -30,12 +32,18 @@ const TasksAll = () => {
       try {
         let { data } = await axios.get(`${URL}`);
         setTask(data);
+
+        // Pagenatsiya uchun arr yasash
+        const pageList = [];
+        const totalPages = Math.ceil(data.pageInfo.total / limit)
+        for (let i = 0; i < totalPages; i++) {
+          pageList.push(i);
+        };
+        setPageArr(pageList);
+
         setLoading(false);
-        setURL("/user-guides/all");
-        setFilter({ completed: "all" });
       } catch (error) {
         toast(error.response.data.error, { type: "error" });
-        setURL("/user-guides/all");
         setRefresh(!refresh);
       };
     };
@@ -54,13 +62,6 @@ const TasksAll = () => {
       setLoading(true);
       let { data } = await axios.delete(`/user-guides/${id}`);
 
-      if (!data) {
-        toast("Serverda xatolik", { type: "error" });
-        setLoading(false);
-        setRefresh(!refresh);
-        return;
-      };
-
       toast("Vazifa o'chirildi", { type: "info" });
       dispatch(loadRefreshData(true));
       setLoading(false);
@@ -70,21 +71,30 @@ const TasksAll = () => {
     };
   };
 
-
-  function handleSelect(e) {
-    setFilter((ov) => ({ ...ov, [e.target.name]: e.target.value }));
+  function handleForm(e) {
+    if (e.target.name === "sort") {
+      dispatch(loadFilters(e.target.value));
+      dispatch(loadOffset(0));
+    } else if (e.target.name === "limit") {
+      dispatch(loadLimit(Number(e.target.value)));
+      dispatch(loadOffset(0));
+    } else if (e.target.name === "offset") {
+      dispatch(loadOffset(e.target.value * limit));
+    };
   };
 
-  function handleSort(e) {
+  function handleSubmit(e) {
     e.preventDefault();
 
-    if (filter.completed === "all") {
-      setURL("/user-guides/all");
+    if (filters.completed === "all") {
+      dispatch(loadURL(`/user-guides/all?page[limit]=${limit}&page[offset]=${offset}`));
+      setLoading(true);
       setRefresh(!refresh);
       return;
     };
 
-    setURL(`/user-guides/all?filters[completed]=${filter.completed}`);
+    dispatch(loadURL(`/user-guides/all?filters[completed]=${filters.completed}&page[limit]=${limit}&page[offset]=${offset}`));
+    setLoading(true);
     setRefresh(!refresh);
   };
 
@@ -107,15 +117,21 @@ const TasksAll = () => {
 
             <div className={style["tasksAll__content-tools"]}>
 
-              <form onSubmit={handleSort} className={style["tasksAll__content-filter"]}>
+              <form onSubmit={handleSubmit} className={style["tasksAll__content-filter"]}>
 
-                <select onChange={handleSelect} name="completed" id="completed">
+                <select onChange={handleForm} defaultValue={filters.completed} name="sort" id="sort">
                   <option value="all">Barchasi</option>
                   <option value={false}>Ko'rilmaganlar</option>
                   <option value={true}>Ko'rilganlar</option>
                 </select>
 
-                <button type="submit">Send</button>
+                <select onChange={handleForm} defaultValue={limit} name="limit" id="limit">
+                  <option value={10}>10</option>
+                  <option value={25}>25</option>
+                  <option value={50}>50</option>
+                </select>
+
+                <button type="submit">OK</button>
 
               </form>
 
@@ -123,6 +139,9 @@ const TasksAll = () => {
 
             </div>
 
+            <p className={style["tasksAll__content-pageInfo"]}>
+              Vazifalar (Jami: <span>{task.pageInfo.total}</span> | Sahifada: <span>{task.data.length}</span> )
+            </p>
 
             <ul className={style["tasksAll__content-table"]}>
 
@@ -209,7 +228,23 @@ const TasksAll = () => {
                 ))
               }
 
-            </ul>
+            </ul>            
+
+            <form onSubmit={handleSubmit} className={style["tasksAll__content-pageList"]}>
+              {
+                pageArr.map(item => (
+                  <button
+                    type='submit'
+                    key={item}
+                    value={item}
+                    name='offset'
+                    onClick={handleForm}
+                    className={style["tasksAll__content-page"]}>
+                    {item + 1}
+                  </button>
+                ))
+              }
+            </form>
           </div>
         </div>
       </div>

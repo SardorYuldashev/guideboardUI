@@ -7,12 +7,17 @@ import green_mark from '../../assets/images/green_mark.webp';
 import red_mark from '../../assets/images/red_mark.webp';
 import Loader from './../../Components/Loader';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { loadURL, loadLimit, loadOffset, loadFilters } from '../../Store/slices/taskMy';
+
 const TasksMy = () => {
   const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(true);
   const [tasks, setTasks] = useState([]);
-  const [URL, setURL] = useState("/user-guides");
-  const [filter, setFilter] = useState({ completed: "false" });
+
+  const dispatch = useDispatch();
+  const { URL, limit, offset, filters } = useSelector(({ taskMy }) => taskMy);
+  const [pageArr, setPageArr] = useState(null);
 
   useEffect(() => {
     async function getGuides() {
@@ -20,25 +25,48 @@ const TasksMy = () => {
         let { data } = await axios.get(`${URL}`);
 
         setTasks(data);
+
+        // Pagenatsiya uchun arr yasash
+        const pageList = [];
+        const totalPages = Math.ceil(data.pageInfo.total / limit)
+        for (let i = 0; i < totalPages; i++) {
+          pageList.push(i);
+        };
+        setPageArr(pageList);
+
         setLoading(false);
-        setURL("/user-guides");
-        setFilter({ completed: false });
       } catch (error) {
         toast(error.response.data.error, { type: "error" });
-        setURL("/user-guides");
         setRefresh(!refresh);
       };
     };
     getGuides();
   }, [refresh]);
 
-  function handleSelect(e) {
-    setFilter((ov) => ({ ...ov, [e.target.name]: e.target.value }));
+  function handleForm(e) {
+    if (e.target.name === "sort") {
+      dispatch(loadFilters(e.target.value));
+      dispatch(loadOffset(0));
+    } else if (e.target.name === "limit") {
+      dispatch(loadLimit(Number(e.target.value)));
+      dispatch(loadOffset(0));
+    } else if (e.target.name === "offset") {
+      dispatch(loadOffset(e.target.value * limit));
+    };
   };
 
-  function handleSort(e) {
+  function handleSubmit(e) {
     e.preventDefault();
-    setURL(`/user-guides?filters[completed]=${filter.completed}`);
+
+    if (filters.completed === "all") {
+      dispatch(loadURL(`/user-guides?page[limit]=${limit}&page[offset]=${offset}`));
+      setLoading(true);
+      setRefresh(!refresh);
+      return;
+    };
+
+    dispatch(loadURL(`/user-guides?filters[completed]=${filters.completed}&page[limit]=${limit}&page[offset]=${offset}`));
+    setLoading(true);
     setRefresh(!refresh);
   };
 
@@ -57,20 +85,28 @@ const TasksMy = () => {
 
             <div className={style["tasksMy__content-tools"]}>
 
-              <form onSubmit={handleSort} className={style["tasksMy__content-filter"]}>
+              <form onSubmit={handleSubmit} className={style["tasksMy__content-filter"]}>
 
-                <select onChange={handleSelect} name="completed" id="completed">
+                <select onChange={handleForm} value={filters.completed} name="sort" id="sort">
                   <option value={false}>Ko'rilmaganlar</option>
                   <option value={true}>Ko'rilganlar</option>
                 </select>
 
-                <button type="submit">Send</button>
+                <select onChange={handleForm} defaultValue={limit} name="limit" id="limit">
+                  <option value={10}>10</option>
+                  <option value={25}>25</option>
+                  <option value={50}>50</option>
+                </select>
+
+                <button type="submit">OK</button>
 
               </form>
 
-
-
             </div>
+
+            <p className={style["tasksMy__content-pageInfo"]}>
+              Vazifalarim ( Jami: <span>{tasks.pageInfo.total}</span> | Sahifada: <span>{tasks.data.length}</span> )
+            </p>
 
             <div className={style["tasksMy__content-tasksBox"]}>
               {
@@ -113,7 +149,24 @@ const TasksMy = () => {
 
                   </ul>
               }
-            </div>
+            </div>            
+
+            <form onSubmit={handleSubmit} className={style["tasksMy__content-pageList"]}>
+              {
+                pageArr.map(item => (
+                  <button
+                    type='submit'
+                    key={item}
+                    value={item}
+                    name='offset'
+                    onClick={handleForm}
+                    className={style["tasksMy__content-page"]}>
+                    {item + 1}
+                  </button>
+                ))
+              }
+            </form>
+            
           </div>
         </div>
       </div>
