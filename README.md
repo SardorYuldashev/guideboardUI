@@ -8,7 +8,7 @@ Loyihada ikki turdagi foydalanuvchilar bo'ladi.
 
 "admin" - administratorlar va "employee" - oddiy foydalanuvchilar.
 
-Tasavvur qiling bir tashkilotning o'z ichki qoidalari mavjud. Barcha ishchilar u qoidalar bilan tanishib chiqishi kerak. Tashkilotda yangi qonun qabul qilinsa, barcha ishchilarni xabardor qilish kerak. Tashkilotga yangi xodim ishga kelsa uni barcha qoidalar bilan tanishtirib chiqish kerak. Yangi qoidani qabul qilish tanganing bir tomoni bo'lsa, qoida bilan ishchilar rostdan ham tanishib chiqqanini nazorat qilish tanganing ikkinchi tomoni. "Guide Board" shu muammoni hal qilishga ko'maklashadi.
+Tasavvur qiling bir tashkilotning o'z ichki qoidalari mavjud. Barcha ishchilar u qoidalar bilan tanishib chiqishi kerak. Tashkilotda yangi qoida qabul qilinsa, barcha ishchilarni xabardor qilish kerak. Tashkilotga yangi xodim ishga kelsa uni barcha qoidalar bilan tanishtirib chiqish kerak. Yangi qoidani qabul qilish tanganing bir tomoni bo'lsa, qoida bilan ishchilar rostdan ham tanishib chiqqanini nazorat qilish tanganing ikkinchi tomoni. "Guide Board" shu muammoni hal qilishga ko'maklashadi.
 
 ### "admin" lar nima qila oladi?
 
