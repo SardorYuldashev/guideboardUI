@@ -17,7 +17,8 @@ const Layout = () => {
 
     async function tokenVerify() {
       try {
-        const { data } = await axios.get("/users/me", { headers: { 'Authorization': `Bearer ${token}` } });
+        const { data } = await axios.get("/users/me", { headers: { 'Authorization': token } });
+        // const { data } = await axios.get("/users/me", { headers: { 'Authorization': `Bearer ${token}` } });
 
         localStorage.setItem("role", data.data.role);
       } catch (error) {
@@ -26,7 +27,7 @@ const Layout = () => {
       };
     };
     tokenVerify();
-    
+
     setLoading(false);
   }, [navigate]);
 
