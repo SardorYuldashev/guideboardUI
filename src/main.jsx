@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
-import { ToastContainer } from 'react-toastify'
+import { ToastContainer } from 'react-toastify';
 
 // Axios
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:3000';
-// axios.defaults.baseURL = 'https://guideboard.up.railway.app/';
+axios.defaults.baseURL = 'https://guideboard.up.railway.app';
+// axios.defaults.baseURL = 'http://localhost:3000';
 axios.defaults.headers.common["Content-Type"] = "application/json";
 let token = localStorage.getItem("token");
 if (token) axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
