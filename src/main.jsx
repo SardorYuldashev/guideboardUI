@@ -17,7 +17,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 // Styles
 import "react-toastify/dist/ReactToastify.css";
-// import "bootstrap/dist/css/bootstrap.min.css";
 import './index.css';
 
 // Store
