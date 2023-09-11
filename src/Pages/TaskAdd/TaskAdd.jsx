@@ -41,7 +41,7 @@ const TaskAdd = () => {
         });
         setGuides(newData);
 
-        let users = await axios.get(`/users`);
+        let users = await axios.get(`/users?page[limit]=1000&page[ofset]=0`);
         setUsers(users.data.data);
 
         setLoading(false);
