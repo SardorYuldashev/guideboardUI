@@ -30,7 +30,7 @@ const TaskSend = () => {
         let { data } = await axios.get(`/guides/${id}`);
         setGuide(data.data);
 
-        let users = await axios.get(`/users`);
+        let users = await axios.get(`/users?page[limit]=1000&page[offset]=0`);
         setUsers(users.data.data);
 
         setLoading(false);
