@@ -113,7 +113,6 @@ const Users = () => {
 
   async function deleteUser(id) {
     let question = confirm("Rostdan ham foydalanuvchini o'chirmoqchimisiz?");
-
     if (!question) {
       return;
     };

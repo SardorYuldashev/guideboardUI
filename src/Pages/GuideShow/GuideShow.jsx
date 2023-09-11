@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import style from './guideShow.module.scss';
 import Loader from '../../Components/Loader';
+import Comments from '../../Components/Comments';
 
 const GuideShow = () => {
   const { id } = useParams();
@@ -97,6 +98,8 @@ const GuideShow = () => {
             <p className={style["guideShow__content-text"]}>
               {guide.content}
             </p>
+
+            <Comments guide_id={+id} />
 
           </div>
         </div>

@@ -19,6 +19,7 @@ import TasksMy from './Pages/TasksMy';
 import TaskShow from './Pages/TaskShow';
 import TasksAll from './Pages/TasksAll';
 import NotFound from './Pages/NotFound';
+import CommentEdit from './Pages/CommentEdit';
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           <Route path='/tasks/add' element={<TaskAdd />} />
           <Route path='/tasks/add/:id' element={<TaskSend />} />
           <Route path='/tasks/:id' element={<TaskShow />} />
+          <Route path='/comment/:id' element={<CommentEdit />} />
         </Route>
 
         <Route path='/home' element={<Home />} />

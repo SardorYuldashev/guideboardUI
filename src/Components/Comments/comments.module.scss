@@ -1,0 +1,130 @@
+.comments {
+  width: 100%;
+  position: relative;
+
+  &__content {
+    text-align: left;
+
+    &-form {
+      margin-top: 15px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+
+      input {
+        outline: none;
+        border: none;
+        border-bottom: 1px solid #000000;
+        background: none;
+        width: 90%;
+        font-size: 20px;
+      }
+
+      button {
+        width: 10%;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 10px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: .3s;
+        font-weight: 600;
+        background: #302929;
+        color: #ffffff;
+
+        &:hover {
+          background: #5fb6f0;
+        }
+      }
+    }
+
+    &-commentBox {
+      padding: 20px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    &-noComment {
+      font-size: 14px;
+    }
+
+    &-comment {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      background: linear-gradient(to right, #ffffff, #5b5b5b);
+      padding: 10px;
+    }
+
+    &-left {
+      display: flex;
+      justify-content: flex-start;
+      align-items: start;
+      gap: 15px;
+    }
+
+    &-imgBox {
+      width: 50px;
+      height: 50px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      background: #5b5b5b;
+    }
+
+    &-img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    &-user {
+      font-size: 18px;
+      font-weight: 600;
+
+      span {
+        font-size: 10px;
+        text-transform: uppercase;
+        color: #8ac4d6;
+      }
+    }
+
+    &-text {
+      margin-top: 5px;
+      font-size: 14px;
+    }
+
+    &-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    &-tool {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: none;
+      border: none;
+      font-size: 15px;
+      cursor: pointer;
+      padding: 3px;
+      transition: 0.3s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #000000;
+
+      &:last-child {
+        color: #ff0000;
+      }
+
+      &:hover {
+        background: #ffffff;
+      }
+    }
+  }
+}

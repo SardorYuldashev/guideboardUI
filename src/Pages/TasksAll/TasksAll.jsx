@@ -171,7 +171,7 @@ const TasksAll = () => {
                     </p>
 
                     <p className={style["tasksAll__content-info"]}>
-                      <Link to={`/users/${item.guide.id}`} className={style["tasksAll__content-titleBox"]}>
+                      <Link to={`/users/${item.user.id}`} className={style["tasksAll__content-titleBox"]}>
                         {item.user.first_name} {item.user.last_name}
                       </Link>
                     </p>
@@ -229,7 +229,7 @@ const TasksAll = () => {
                 ))
               }
             </form>
-            
+
           </div>
         </div>
       </div>

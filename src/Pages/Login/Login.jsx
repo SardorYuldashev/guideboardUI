@@ -39,6 +39,7 @@ const Login = () => {
       let user = await axios.get("/users/me");
 
       localStorage.setItem("role", user.data.data.role);
+      localStorage.setItem("id", user.data.data.id);
 
       toast("Profilga kirildi", { type: "success" });
       navigate("/");

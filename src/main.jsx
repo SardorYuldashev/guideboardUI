@@ -6,8 +6,13 @@ import { ToastContainer } from 'react-toastify';
 // Axios
 import axios from 'axios';
 
+// Kerakli baseURLni kommentdan chiqaring:
+// 1. Internetdagi serverga ulanish uchun:
 axios.defaults.baseURL = 'https://guideboard.up.railway.app';
+
+// 2. Local serverga ulanish uchun:
 // axios.defaults.baseURL = 'http://localhost:3000';
+
 axios.defaults.headers.common["Content-Type"] = "application/json";
 let token = localStorage.getItem("token");
 if (token) axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
