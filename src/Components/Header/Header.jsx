@@ -64,7 +64,7 @@ const Header = () => {
 
     clickProfileAndLogout();
     localStorage.clear();
-    navigate("/");
+    navigate("/home");
   };
 
   function clickGuides() {
