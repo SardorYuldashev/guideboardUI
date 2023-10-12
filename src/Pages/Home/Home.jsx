@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import style from './home.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import Loader from '../../Components/Loader';
+import Modal from '../../Components/Modal';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -18,6 +19,8 @@ const Home = () => {
     loading
       ? <Loader />
       : <div className={style["home"]}>
+        <Modal />
+
         <div className="container">
           <div className={style["home__content"]}>
 
